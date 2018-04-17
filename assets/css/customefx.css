@@ -1,0 +1,8 @@
+#product-button
+
+.product-item {
+    transition: box-shadow .3s; 
+}
+.product-item:hover {
+    box-shadow: 0 0 11px rgba(21, 173, 102, 0.2); 
+}

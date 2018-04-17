@@ -1,0 +1,995 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!--     Fonts and icons     -->
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Material+Icons"
+    />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" />
+
+    <title>Agric Shop - Tìm kiếm</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="assets/css/bootstrap.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="assets/css/material-kit.css" rel="stylesheet">
+</head>
+
+<body class="ecommerce">
+    <!-- Navigation bar -->
+    <nav class="navbar navbar-color-on-scroll fixed-top navbar-expand-lg navbar-transparent bg-success" color-on-scroll="100"
+        style="min-width: 1024px;">
+        <div class="container">
+            <a class="navbar-brand" href="../agric/index.php">
+                <i class="material-icons">spa</i>
+            </a>
+
+            <form class="form-inline">
+                <div class="form-group has-white" style="padding-left: 200px;">
+                    <input class="form-control" type="text" placeholder="Tìm sản phẩm" style="width:300px;">
+                </div>
+                <button type="button" class="btn btn-white btn-raised btn-fab btn-fab-mini btn-round ml-2" onclick="window.location.href='filter-product.html'">
+                    <i class="material-icons">search</i>
+                </button>
+            </form>
+
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsCollapse" aria-controls="navbarsCollapse"
+                aria-expanded="false" aria-label="Toggle navigation">
+                <!-- 3 line Toggle Collapse Button -->
+                <span class="navbar-toggler-icon"></span>
+                <span class="navbar-toggler-icon"></span>
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+
+
+            <div class="collapse navbar-collapse nav justify-content-end" id="navbarsCollapse">
+                <!-- Leftside -->
+                <!-- <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                   <a class="nav-link disabled" href="#">Disabled</a>
+                </li>
+                <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Dropdown</a>
+                <div class="dropdown-menu" aria-labelledby="dropdown01">
+                  <a class="dropdown-item" href="#">Action</a>
+                  <a class="dropdown-item" href="#">Another action</a>
+                  <a class="dropdown-item" href="#">Something else here</a>
+                </div>
+              </li>
+            </ul> -->
+
+                <!-- Rightside Links -->
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="../agric/cart-table.html">
+                            <i class="material-icons">shopping_cart</i>
+                            Giỏ hàng
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="../agric/signup.html">
+                            <i class="material-icons">content_paste</i>
+                            Đăng ký
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="../agric/login.html">
+                            <i class="material-icons">account_circle</i>
+                            Đăng nhập
+                        </a>
+                    </li>
+                </ul>
+
+            </div>
+        </div>
+    </nav>
+    <!-- Carousel Slider -->
+    <div id="carouselIndicators" class="carousel slide" data-ride="carousel" data-pause="hover">
+        <ol class="carousel-indicators">
+            <li data-target="#carouselIndicators" data-slide-to="0" class="active"></li>
+            <li data-target="#carouselIndicators" data-slide-to="1"></li>
+            <li data-target="#carouselIndicators" data-slide-to="2"></li>
+        </ol>
+        <div class="carousel-inner">
+            <!-- Auto load Slide 1 *acitve -->
+            <div class="carousel-item active">
+                <img class="d-block w-100" src="assets/img/slider-img-1.jpg" alt="First slide">
+                <div class="carousel-caption d-none d-md-block">
+                    <h1>Khuyến mãi</h1>
+                    <h3>Giảm 20% đối với các loại Gạo</h3>
+                </div>
+            </div>
+            <div class="carousel-item">
+                <img class="d-block w-100" src="assets/img/slider-img-1.jpg" alt="Second slide">
+                <div class="carousel-caption d-none d-md-block">
+                    <h1>Khuyến mãi</h1>
+                    <h3>Giảm 20% đối với các loại Gạo</h3>
+                </div>
+            </div>
+            <div class="carousel-item">
+                <img class="d-block w-100" src="assets/img/slider-img-1.jpg" alt="Third slide">
+                <div class="carousel-caption d-none d-md-block">
+                    <h1>Khuyến mãi</h1>
+                    <h3>Giảm 20% đối với các loại Gạo</h3>
+                </div>
+            </div>
+        </div>
+        <a class="carousel-control-prev" href="#carouselIndicators" role="button" data-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="sr-only">Previous</span>
+        </a>
+        <a class="carousel-control-next" href="#carouselIndicators" role="button" data-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="sr-only">Next</span>
+        </a>
+    </div>
+    <br>
+    <br>
+
+    <!-- Image header -->
+    <!-- <div class="page-header header-filter header-small" data-parallax="true" style="background-image: url('assets/img/img-header.jpg');">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-8 ml-auto mr-auto text-center">
+                    <div class="brand">
+                        <h1 class="title">Agric Shop</h1>
+                        <h4>Nông sản Online - Lấy chất lượng làm
+                            <b>Niềm tin!</b>
+                        </h4>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div> -->
+    <!-- Main content -->
+    <div class="main main-raised">
+        <div class="section">
+            <div class="container">
+                <h2 class="section-title" id="saleproduct">Sản phẩm khuyến mãi</h2>
+                <!-- Create a row -->
+                <div class="row">
+                    <!-- Page layout = 12 => 3 col (Each col = 4) -->
+                    <div class="col-md-4">
+                        <div class="card card-product card-plain">
+                            <div class="card-header card-header-image">
+                                <a href="product-detail.html">
+                                    <img alt="" src="assets/img/thumbnail-product.jpg">
+                                </a>
+                                <div class="colored-shadow" style='background-image: url("assets/img/thumbnail-product.jpg"); opacity: 1;'></div>
+                            </div>
+                            <div class="card-body text-center">
+                                <h4 class="card-title">
+                                    <a href="product-detail.html">Gạo Nhật</a>
+                                </h4>
+                                <p class="card-description">Gạo Nhật nhập khẩu, đảm bảo chất lượng 100%..</p>
+                            </div>
+                            <div class="card-footer">
+                                <div class="price-container">
+                                    <span class="price price-old"> 25.000 VNĐ/KG</span>
+                                    <span class="price price-new"> 20.000 VNĐ/KG</span>
+                                </div>
+                                <div class="stats ml-auto">
+                                    <button title="" class="btn btn-just-icon btn-link btn-success" type="button" data-original-title="Thêm vào DS mong muốn"
+                                        rel="tooltip" data-placement="bottom">
+                                        <i class="material-icons">favorite</i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card card-product card-plain">
+                            <div class="card-header card-header-image">
+                                <a href="product-detail.html">
+                                    <img alt="" src="assets/img/thumbnail-product.jpg">
+                                </a>
+                                <div class="colored-shadow" style='background-image: url("assets/img/thumbnail-product.jpg"); opacity: 1;'></div>
+                            </div>
+                            <div class="card-body">
+                                <h4 class="card-title">
+                                    <a href="product-detail.html">Gạo Nhật</a>
+                                </h4>
+                                <p class="card-description">Gạo Nhật nhập khẩu, đảm bảo chất lượng 100%.</p>
+                            </div>
+                            <div class="card-footer">
+                                <div class="price-container">
+                                    <span class="price price-old"> 25.000 VNĐ/KG</span>
+                                    <span class="price price-new">20.000 VNĐ/KG</span>
+                                </div>
+                                <div class="stats ml-auto">
+                                    <button title="" class="btn btn-just-icon btn-link btn-success" type="button" data-original-title="Thêm vào DS mong muốn"
+                                        rel="tooltip" data-placement="bottom">
+                                        <i class="material-icons">favorite</i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card card-product card-plain">
+                            <div class="card-header card-header-image">
+                                <a href="#pablo">
+                                    <img alt="" src="assets/img/thumbnail-product.jpg">
+                                </a>
+                                <div class="colored-shadow" style='background-image: url("assets/img/thumbnail-product.jpg"); opacity: 1;'></div>
+                            </div>
+                            <div class="card-body">
+                                <h4 class="card-title">
+                                    <a href="product-detail.html">Gạo Nhật</a>
+                                </h4>
+                                <p class="card-description">Gạo Nhật nhập khẩu, đảm bảo chất lượng 100%.</p>
+                            </div>
+                            <div class="card-footer">
+                                <div class="price-container">
+                                    <span class="price price-old"> 25.000 VNĐ/KG</span>
+                                    <span class="price price-new">20.000 VNĐ/KG</span>
+                                </div>
+                                <div class="stats ml-auto">
+                                    <button title="" class="btn btn-just-icon btn-link btn-success" type="button" data-original-title="Thêm vào DS mong muốn"
+                                        rel="tooltip" data-placement="bottom">
+                                        <i class="material-icons">favorite</i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <h2 class="section-title">Tìm kiếm sản phẩm</h2>
+                <div class="row">
+                    <!-- Filter Side -->
+                    <div class="col-md-3">
+                        <div class="card card-refine card-plain card-success">
+                            <div class="card-body">
+                                <h4 class="card-title">
+                                    Làm mới bộ lọc
+                                    <button title="" class="btn btn-default btn-fab btn-fab-mini btn-link pull-right" data-original-title="Làm mới bộ lọc" rel="tooltip">
+                                        <i class="material-icons">cached</i>
+                                    </button>
+                                </h4>
+                                <div id="accordion" role="tablist">
+                                    <div class="card card-collapse">
+                                        <div class="card-header" id="headingOne" role="tab">
+                                            <h5 class="mb-0">
+                                                <a aria-expanded="true" aria-controls="collapseOne" href="#collapseOne" data-toggle="collapse">
+                                                    Giá từ
+                                                    <i class="material-icons">keyboard_arrow_down</i>
+                                                </a>
+                                            </h5>
+                                        </div>
+                                        <div class="collapse show" id="collapseOne" role="tabpanel" aria-labelledby="headingOne">
+                                            <div class="card-body card-refine">
+                                                <span class="price-left pull-left" id="price-left" data-currency=" VNĐ"></span>
+                                                <span class="price-right pull-right" id="price-right" data-currency=" VNĐ"></span>
+                                                <div class="clearfix"></div>
+                                                <div id="sliderDouble" class="slider slider-success"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="card card-collapse">
+                                        <div class="card-header" id="headingTwo" role="tab">
+                                            <h5 class="mb-0">
+                                                <a class="collapsed" aria-expanded="false" aria-controls="collapseTwo" href="#collapseTwo" data-toggle="collapse">
+                                                    Nông sản
+                                                    <i class="material-icons">keyboard_arrow_down</i>
+                                                </a>
+                                            </h5>
+                                        </div>
+                                        <div class="collapse" id="collapseTwo" role="tabpanel" aria-labelledby="headingTwo">
+                                            <div class="card-body">
+                                                <div class="form-check">
+                                                    <label class="form-check-label">
+                                                        <input class="form-check-input" type="checkbox" checked="" value=""> Tất cả
+                                                        <span class="form-check-sign">
+                                                            <span class="check"></span>
+                                                        </span>
+                                                    </label>
+                                                </div>
+                                                <div class="form-check">
+                                                    <label class="form-check-label">
+                                                        <input class="form-check-input" type="checkbox" value=""> Gạo Nở
+                                                        <span class="form-check-sign">
+                                                            <span class="check"></span>
+                                                        </span>
+                                                    </label>
+                                                </div>
+                                                <div class="form-check">
+                                                    <label class="form-check-label">
+                                                        <input class="form-check-input" type="checkbox" value=""> Gạo Dẻo
+                                                        <span class="form-check-sign">
+                                                            <span class="check"></span>
+                                                        </span>
+                                                    </label>
+                                                </div>
+                                                <div class="form-check">
+                                                    <label class="form-check-label">
+                                                        <input class="form-check-input" type="checkbox" value=""> Gạo Nếp
+                                                        <span class="form-check-sign">
+                                                            <span class="check"></span>
+                                                        </span>
+                                                    </label>
+                                                </div>
+                                                <div class="form-check">
+                                                    <label class="form-check-label">
+                                                        <input class="form-check-input" type="checkbox" value=""> Gạo Tấm
+                                                        <span class="form-check-sign">
+                                                            <span class="check"></span>
+                                                        </span>
+                                                    </label>
+                                                </div>
+                                                <div class="form-check">
+                                                    <label class="form-check-label">
+                                                        <input class="form-check-input" type="checkbox" value=""> Gạo Ngon
+                                                        <span class="form-check-sign">
+                                                            <span class="check"></span>
+                                                        </span>
+                                                    </label>
+                                                </div>
+                                                <div class="form-check">
+                                                    <label class="form-check-label">
+                                                        <input class="form-check-input" type="checkbox" value=""> Rau
+                                                        <span class="form-check-sign">
+                                                            <span class="check"></span>
+                                                        </span>
+                                                    </label>
+                                                </div>
+                                                <div class="form-check">
+                                                    <label class="form-check-label">
+                                                        <input class="form-check-input" type="checkbox" value=""> Quả
+                                                        <span class="form-check-sign">
+                                                            <span class="check"></span>
+                                                        </span>
+                                                    </label>
+                                                </div>
+                                                <div class="form-check">
+                                                    <label class="form-check-label">
+                                                        <input class="form-check-input" type="checkbox" value=""> Củ
+                                                        <span class="form-check-sign">
+                                                            <span class="check"></span>
+                                                        </span>
+                                                    </label>
+                                                </div>
+                                                <div class="form-check">
+                                                    <label class="form-check-label">
+                                                        <input class="form-check-input" type="checkbox" value=""> Trái cây
+                                                        <span class="form-check-sign">
+                                                            <span class="check"></span>
+                                                        </span>
+                                                    </label>
+                                                </div>
+                                                <div class="form-check">
+                                                    <label class="form-check-label">
+                                                        <input class="form-check-input" type="checkbox" value=""> Gia vị
+                                                        <span class="form-check-sign">
+                                                            <span class="check"></span>
+                                                        </span>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="card card-collapse">
+                                        <div class="card-header" id="headingThree" role="tab">
+                                            <h5 class="mb-0">
+                                                <a class="collapsed" aria-expanded="false" aria-controls="collapseThree" href="#collapseThree" data-toggle="collapse">
+                                                    Nhãn hiệu
+                                                    <i class="material-icons">keyboard_arrow_down</i>
+                                                </a>
+                                            </h5>
+                                        </div>
+                                        <div class="collapse" id="collapseThree" role="tabpanel" aria-labelledby="headingThree">
+                                            <div class="card-body">
+                                                <div class="form-check">
+                                                    <label class="form-check-label">
+                                                        <input class="form-check-input" type="checkbox" checked="" value=""> Tất cả
+                                                        <span class="form-check-sign">
+                                                            <span class="check"></span>
+                                                        </span>
+                                                    </label>
+                                                </div>
+                                                <div class="form-check">
+                                                    <label class="form-check-label">
+                                                        <input class="form-check-input" type="checkbox" value=""> Gạo 504
+                                                        <span class="form-check-sign">
+                                                            <span class="check"></span>
+                                                        </span>
+                                                    </label>
+                                                </div>
+                                                <div class="form-check">
+                                                    <label class="form-check-label">
+                                                        <input class="form-check-input" type="checkbox" value=""> Bắc Hương
+                                                        <span class="form-check-sign">
+                                                            <span class="check"></span>
+                                                        </span>
+                                                    </label>
+                                                </div>
+                                                <div class="form-check">
+                                                    <label class="form-check-label">
+                                                        <input class="form-check-input" type="checkbox" value=""> Chợ Đào
+                                                        <span class="form-check-sign">
+                                                            <span class="check"></span>
+                                                        </span>
+                                                    </label>
+                                                </div>
+                                                <div class="form-check">
+                                                    <label class="form-check-label">
+                                                        <input class="form-check-input" type="checkbox" value=""> Đài Loan
+                                                        <span class="form-check-sign">
+                                                            <span class="check"></span>
+                                                        </span>
+                                                    </label>
+                                                </div>
+                                                <div class="form-check">
+                                                    <label class="form-check-label">
+                                                        <input class="form-check-input" type="checkbox" value=""> Hương Sen
+                                                        <span class="form-check-sign">
+                                                            <span class="check"></span>
+                                                        </span>
+                                                    </label>
+                                                </div>
+                                                <div class="form-check">
+                                                    <label class="form-check-label">
+                                                        <input class="form-check-input" type="checkbox" value=""> Lài Sữa
+                                                        <span class="form-check-sign">
+                                                            <span class="check"></span>
+                                                        </span>
+                                                    </label>
+                                                </div>
+                                                <div class="form-check">
+                                                    <label class="form-check-label">
+                                                        <input class="form-check-input" type="checkbox" value=""> Hương Sen
+                                                        <span class="form-check-sign">
+                                                            <span class="check"></span>
+                                                        </span>
+                                                    </label>
+                                                </div>
+                                                <div class="form-check">
+                                                    <label class="form-check-label">
+                                                        <input class="form-check-input" type="checkbox" value=""> Tài Nguyên
+                                                        <span class="form-check-sign">
+                                                            <span class="check"></span>
+                                                        </span>
+                                                    </label>
+                                                </div>
+                                                <div class="form-check">
+                                                    <label class="form-check-label">
+                                                        <input class="form-check-input" type="checkbox" value=""> Tám Xoan
+                                                        <span class="form-check-sign">
+                                                            <span class="check"></span>
+                                                        </span>
+                                                    </label>
+                                                </div>
+                                                <div class="form-check">
+                                                    <label class="form-check-label">
+                                                        <input class="form-check-input" type="checkbox" value=""> Filter text
+                                                        <span class="form-check-sign">
+                                                            <span class="check"></span>
+                                                        </span>
+                                                    </label>
+                                                </div>
+                                                <div class="form-check">
+                                                    <label class="form-check-label">
+                                                        <input class="form-check-input" type="checkbox" value=""> Filter text
+                                                        <span class="form-check-sign">
+                                                            <span class="check"></span>
+                                                        </span>
+                                                    </label>
+                                                </div>
+                                                <div class="form-check">
+                                                    <label class="form-check-label">
+                                                        <input class="form-check-input" type="checkbox" value=""> Filter text
+                                                        <span class="form-check-sign">
+                                                            <span class="check"></span>
+                                                        </span>
+                                                    </label>
+                                                </div>
+                                                <div class="form-check">
+                                                    <label class="form-check-label">
+                                                        <input class="form-check-input" type="checkbox" value=""> Filter text
+                                                        <span class="form-check-sign">
+                                                            <span class="check"></span>
+                                                        </span>
+                                                    </label>
+                                                </div>
+                                                <div class="form-check">
+                                                    <label class="form-check-label">
+                                                        <input class="form-check-input" type="checkbox" value=""> Filter text
+                                                        <span class="form-check-sign">
+                                                            <span class="check"></span>
+                                                        </span>
+                                                    </label>
+                                                </div>
+                                                <div class="form-check">
+                                                    <label class="form-check-label">
+                                                        <input class="form-check-input" type="checkbox" value=""> Filter text
+                                                        <span class="form-check-sign">
+                                                            <span class="check"></span>
+                                                        </span>
+                                                    </label>
+                                                </div>
+                                                <div class="form-check">
+                                                    <label class="form-check-label">
+                                                        <input class="form-check-input" type="checkbox" value=""> Filter text
+                                                        <span class="form-check-sign">
+                                                            <span class="check"></span>
+                                                        </span>
+                                                    </label>
+                                                </div>
+                                                <div class="form-check">
+                                                    <label class="form-check-label">
+                                                        <input class="form-check-input" type="checkbox" value=""> Filter text
+                                                        <span class="form-check-sign">
+                                                            <span class="check"></span>
+                                                        </span>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Product side -->
+                    <div class="col-md-9">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="card card-product card-plain no-shadow" data-colored-shadow="false">
+                                    <div class="card-header card-header-image">
+                                        <a href="product-detail.html">
+                                            <img alt="..." src="assets/img/thumbnail-product.jpg">
+                                        </a>
+                                    </div>
+                                    <div class="card-body">
+                                        <a href="product-detail.html">
+                                            <h4 class="card-title">
+                                                <a href="product-detail.html">Gạo Nhật</a>
+                                            </h4>
+                                        </a>
+                                        <p class="description">
+                                            Detail text's area...
+                                        </p>
+                                    </div>
+                                    <div class="card-footer justify-content-between">
+                                        <div class="price-container">
+                                            <span class="price">20.000 VNĐ/KG</span>
+                                        </div>
+                                        <button title="" class="btn btn-success btn-link btn-fab btn-fab-mini btn-round pull-right" data-original-title="Xoá khỏi DS mong muốn"
+                                            rel="tooltip" data-placement="left">
+                                            <i class="material-icons">favorite</i>
+                                        </button>
+                                    </div>
+                                </div>
+                                <!-- end card -->
+                            </div>
+                            <div class="col-md-4">
+                                <div class="card card-product card-plain no-shadow" data-colored-shadow="false">
+                                    <div class="card-header card-header-image">
+                                        <a href="product-detail.html">
+                                            <img alt="..." src="assets/img/thumbnail-product.jpg">
+                                        </a>
+                                    </div>
+                                    <div class="card-body">
+                                        <a href="product-detail.html">
+                                            <h4 class="card-title">
+                                                <a href="product-detail.html">Gạo Nhật</a>
+                                            </h4>
+                                        </a>
+                                        <p class="description">
+                                            Detail text's area...
+                                        </p>
+                                    </div>
+                                    <div class="card-footer justify-content-between">
+                                        <div class="price-container">
+                                            <span class="price">20.000 VNĐ/KG</span>
+                                        </div>
+                                        <button title="" class="btn btn-success btn-link btn-fab btn-fab-mini btn-round pull-right" data-original-title="Thêm vào DS mong muốn"
+                                            rel="tooltip" data-placement="left">
+                                            <i class="material-icons">favorite_border</i>
+                                        </button>
+                                    </div>
+                                </div>
+                                <!-- end card -->
+                            </div>
+                            <div class="col-md-4">
+                                <div class="card card-product card-plain no-shadow" data-colored-shadow="false">
+                                    <div class="card-header card-header-image">
+                                        <a href="product-detail.html">
+                                            <img alt="..." src="assets/img/thumbnail-product.jpg">
+                                        </a>
+                                    </div>
+                                    <div class="card-body">
+                                        <a href="product-detail.html">
+                                            <h4 class="card-title">
+                                                <a href="product-detail.html">Gạo Nhật</a>
+                                            </h4>
+                                        </a>
+                                        <p class="description">
+                                            Detail text's area...
+                                        </p>
+                                    </div>
+                                    <div class="card-footer justify-content-between">
+                                        <div class="price-container">
+                                            <span class="price">20.000 VNĐ/KG</span>
+                                        </div>
+                                        <button title="" class="btn btn-success btn-link btn-fab btn-fab-mini btn-round pull-right" data-original-title="Thêm vào DS mong muốn"
+                                            rel="tooltip" data-placement="left">
+                                            <i class="material-icons">favorite_border</i>
+                                        </button>
+                                    </div>
+                                </div>
+                                <!-- end card -->
+                            </div>
+                            <div class="col-md-4">
+                                <div class="card card-product card-plain no-shadow" data-colored-shadow="false">
+                                    <div class="card-header card-header-image">
+                                        <a href="product-detail.html">
+                                            <img alt="..." src="assets/img/thumbnail-product.jpg">
+                                        </a>
+                                    </div>
+                                    <div class="card-body">
+                                        <a href="product-detail.html">
+                                            <h4 class="card-title">
+                                                <a href="product-detail.html">Gạo Nhật</a>
+                                            </h4>
+                                        </a>
+                                        <p class="description">
+                                            Detail text's area...
+                                        </p>
+                                    </div>
+                                    <div class="card-footer justify-content-between">
+                                        <div class="price-container">
+                                            <span class="price">20.000 VNĐ/KG</span>
+                                        </div>
+                                        <button title="" class="btn btn-success btn-link btn-fab btn-fab-mini btn-round pull-right" data-original-title="Thêm vào DS mong muốn"
+                                            rel="tooltip" data-placement="left">
+                                            <i class="material-icons">favorite_border</i>
+                                        </button>
+                                    </div>
+                                </div>
+                                <!-- end card -->
+                            </div>
+                            <div class="col-md-4">
+                                <div class="card card-product card-plain no-shadow" data-colored-shadow="false">
+                                    <div class="card-header card-header-image">
+                                        <a href="product-detail.html">
+                                            <img alt="..." src="assets/img/thumbnail-product.jpg">
+                                        </a>
+                                    </div>
+                                    <div class="card-body">
+                                        <a href="product-detail.html">
+                                            <h4 class="card-title">
+                                                <a href="product-detail.html">Gạo Nhật</a>
+                                            </h4>
+                                        </a>
+                                        <p class="description">
+                                            Detail text's area...
+                                        </p>
+                                    </div>
+                                    <div class="card-footer justify-content-between">
+                                        <div class="price-container">
+                                            <span class="price">20.000 VNĐ/KG</span>
+                                        </div>
+                                        <button title="" class="btn btn-success btn-link btn-fab btn-fab-mini btn-round pull-right" data-original-title="Xoá khỏi DS mong muốn"
+                                            rel="tooltip" data-placement="left">
+                                            <i class="material-icons">favorite</i>
+                                        </button>
+                                    </div>
+                                </div>
+                                <!-- end card -->
+                            </div>
+                            <div class="col-md-4">
+                                <div class="card card-product card-plain no-shadow" data-colored-shadow="false">
+                                    <div class="card-header card-header-image">
+                                        <a href="product-detail.html">
+                                            <img alt="..." src="assets/img/thumbnail-product.jpg">
+                                        </a>
+                                    </div>
+                                    <div class="card-body">
+                                        <a href="product-detail.html">
+                                            <h4 class="card-title">
+                                                <a href="product-detail.html">Gạo Nhật</a>
+                                            </h4>
+                                        </a>
+                                        <p class="description">
+                                            Detail text's area...
+                                        </p>
+                                    </div>
+                                    <div class="card-footer justify-content-between">
+                                        <div class="price-container">
+                                            <span class="price">20.000 VNĐ/KG</span>
+                                        </div>
+                                        <button title="" class="btn btn-success btn-link btn-fab btn-fab-mini btn-round pull-right" data-original-title="Thêm vào DS mong muốn"
+                                            rel="tooltip" data-placement="left">
+                                            <i class="material-icons">favorite_border</i>
+                                        </button>
+                                    </div>
+                                </div>
+                                <!-- end card -->
+                            </div>
+                            <div class="col-md-3 ml-auto mr-auto">
+                                <button title="" class="btn btn-success btn-round" data-original-title="" rel="tooltip">Mở rộng...</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <br>
+            </div>
+        </div>
+    </div>
+
+    <!-- Relative Products -->
+    <div class="section">
+        <div class="container">
+            <h3 class="title text-center">Các sản phẩm liên quan: </h3>
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="card card-product">
+                        <div class="card-header card-header-image">
+                            <a href="#pablo">
+                                <img class="img" src="assets/img/thumbnail-product.jpg">
+                            </a>
+                        </div>
+                        <div class="card-body">
+                            <h4 class="card-title">
+                                <a href="product-detail.html">Gạo Nhật</a>
+                            </h4>
+                            <div class="card-description">
+                                Mô tả sp.
+                            </div>
+                        </div>
+                        <div class="card-footer justify-content-between">
+                            <div class="price">
+                                <h4>20.000 VNĐ/KG</h4>
+                            </div>
+                            <div class="stats">
+                                <button type="button" rel="tooltip" title="Saved to Wishlist" class="btn btn-just-icon btn-link btn-success">
+                                    <i class="material-icons">favorite</i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card card-product">
+                        <div class="card-header card-header-image">
+                            <a href="#pablo">
+                                <img class="img" src="assets/img/thumbnail-product.jpg">
+                            </a>
+                        </div>
+                        <div class="card-body">
+                            <h4 class="card-title">
+                                <a href="product-detail.html">Gạo Nhật</a>
+                            </h4>
+                            <div class="card-description">
+                                Mô tả sp.
+                            </div>
+                        </div>
+                        <div class="card-footer justify-content-between">
+                            <div class="price">
+                                <h4>20.000 VNĐ/KG</h4>
+                            </div>
+                            <div class="stats">
+                                <button type="button" rel="tooltip" title="Saved to Wishlist" class="btn btn-just-icon btn-link btn-success">
+                                    <i class="material-icons">favorite</i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card card-product">
+                        <div class="card-header card-header-image">
+                            <a href="#pablo">
+                                <img class="img" src="assets/img/thumbnail-product.jpg">
+                            </a>
+                        </div>
+                        <div class="card-body">
+                            <h4 class="card-title">
+                                <a href="product-detail.html">Gạo Nhật</a>
+                            </h4>
+                            <div class="card-description">
+                                Mô tả sp.
+                            </div>
+                        </div>
+                        <div class="card-footer justify-content-between">
+                            <div class="price">
+                                <h4>20.000 VNĐ/KG</h4>
+                            </div>
+                            <div class="stats">
+                                <button type="button" rel="tooltip" title="Saved to Wishlist" class="btn btn-just-icon btn-link btn-success">
+                                    <i class="material-icons">favorite</i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card card-product">
+                        <div class="card-header card-header-image">
+                            <a href="#pablo">
+                                <img class="img" src="assets/img/thumbnail-product.jpg">
+                            </a>
+                        </div>
+                        <div class="card-body">
+                            <h4 class="card-title">
+                                <a href="product-detail.html">Gạo Nhật</a>
+                            </h4>
+                            <div class="card-description">
+                                Mô tả sp.
+                            </div>
+                        </div>
+                        <div class="card-footer justify-content-between">
+                            <div class="price">
+                                <h4>20.000 VNĐ/KG</h4>
+                            </div>
+                            <div class="stats">
+                                <button type="button" rel="tooltip" title="Saved to Wishlist" class="btn btn-just-icon btn-link btn-success">
+                                    <i class="material-icons">favorite</i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Footer -->
+    <!-- CONTACT US -->
+    <div class="contactus-1 section-image" style="background-image: url('assets/img/contact-footer.jpg')" id="contactus">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-5">
+                    <h2 class="title">Thông tin liên hệ</h2>
+                    <h5 class="description"></h5>
+                    <div class="info info-horizontal">
+                        <div class="icon icon-primary">
+                            <i class="material-icons">pin_drop</i>
+                        </div>
+                        <div class="description">
+                            <h4 class="info-title">Địa chỉ shop</h4>
+                            <p> ĐH Cần Thơ - Khu II,
+                                <br> Đường 3 tháng 2, P.Xuân Khánh, Q.Ninh Kiều
+                                <br> Cần Thơ
+                            </p>
+                        </div>
+                    </div>
+                    <div class="info info-horizontal">
+                        <div class="icon icon-primary">
+                            <i class="material-icons">phone</i>
+                        </div>
+                        <div class="description">
+                            <h4 class="info-title">Gọi ngay khi bạn cần</h4>
+                            <p> Minh Tâm
+                                <br> +84 123 456 7890
+                                <br> Thứ 2 - Thứ 6, 7:30-20:30
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3928.840125724688!2d105.76888941529546!3d10.0300485252669!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31a0883d0dac6b15%3A0xf6ae5b1bd18625!2sCan+Tho+University!5e0!3m2!1sen!2s!4v1521453020174"
+                    width="600" height="450" frameborder="0" style="border:0" allowfullscreen></iframe>
+            </div>
+        </div>
+    </div>
+    <!-- END CONTACT US -->
+    <footer class="footer footer-black footer-big">
+        <div class="container">
+            <div class="content">
+                <div class="row">
+                    <div class="col-md-4">
+                        <h5>About Us</h5>
+                        <p>Mua hàng trực tuyến (mua hàng online) mang lại sự tiện lợi, lựa chọn đa dạng hơn và các dịch vụ tốt
+                            hơn cho người tiêu dùng, thế nhưng người tiêu dùng Việt Nam vẫn chưa tận hưởng được những tiện
+                            ích đó. Chính vì vậy Agric shop được triển khai với mong muốn trở thành thương hiệu mua sắm nông
+                            sản trực tuyến, nơi bạn có thể chọn lựa các mặt hàng nông sản từ loại thông dụng cho đến các
+                            loại đặc biệt… Chúng tôi có tất cả!</p>
+                    </div>
+                    <div class="col-md-8">
+                        <h5>Social Feed</h5>
+                        <div class="social-feed">
+                            <div class="feed-line">
+                                <i class="fa fa-youtube"></i>
+                                <p>Youtube.com/user</p>
+                            </div>
+                            <div class="feed-line">
+                                <i class="fa fa-facebook-square"></i>
+                                <p>Fb.com/huy.tran.dsner</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <hr>
+
+            <nav class="float-left">
+                <ul>
+                    <li>
+                        <a href="#">
+                            Designed by Huy Tran
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+
+            <div class="copyright float-right">
+                &#xA9;
+                <script>
+                    document.write(new Date().getFullYear())
+                </script>, Material Kit for Bootstrap 4 by
+                <a href="http://www.creative-tim.com" target="_blank">Creative Tim</a>
+            </div>
+        </div>
+
+    </footer>
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="assets/js/bootstrap.js"></script>
+    <!--   Core JS Files   -->
+    <script src="assets/js/core/jquery.min.js"></script>
+    <script src="assets/js/core/popper.min.js"></script>
+    <script src="assets/js/bootstrap-material-design.js"></script>
+
+    <!-- Plugin for Date Time Picker and Full Calendar Plugin-->
+    <script src="assets/js/plugins/moment.min.js"></script>
+
+    <!-- Plugin for Select -->
+    <script src="assets/js/plugins/bootstrap-selectpicker.js"></script>
+
+    <!-- Plugin for Tags -->
+    <script src="assets/js/plugins/bootstrap-tagsinput.js"></script>
+
+    <!-- Plugin for Fileupload -->
+    <script src="assets/js/plugins/jasny-bootstrap.min.js"></script>
+
+    <!-- Plugin for Small Gallery in Product Page -->
+    <script src="assets/js/plugins/jquery.flexisel.js"></script>
+
+    <!-- Plugin for the Datepicker -->
+    <script src="assets/js/plugins/bootstrap-datetimepicker.min.js"></script>
+
+    <!-- Plugin for the Sliders -->
+    <script src="assets/js/plugins/nouislider.min.js"></script>
+
+    <!-- Material Kit Core initialisations of plugins and Bootstrap Material Design Library -->
+    <script src="assets/js/material-kit.js?v=2.0.0"></script>
+
+    <!-- Slider JS -->
+    <script>
+        $(document).ready(function () {
+
+            var slider2 = document.getElementById('sliderDouble');
+
+            noUiSlider.create(slider2, {
+                start: [20, 45],
+                connect: true,
+                range: {
+                    'min': [10],
+                    'max': [80]
+                }
+            });
+
+            var limitFieldMin = document.getElementById('price-left');
+            var limitFieldMax = document.getElementById('price-right');
+            // Add Price text on top of handle
+            slider2.noUiSlider.on('update', function (values, handle) {
+                if (handle) {
+                    limitFieldMax.innerHTML = Math.round(values[handle]) + ".000" + $('#price-right').data('currency');
+                } else {
+                    limitFieldMin.innerHTML = Math.round(values[handle]) + ".000" + $('#price-left').data('currency');
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>
