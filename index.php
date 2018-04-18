@@ -51,7 +51,7 @@ $rs_banner = mysqli_query($conn,$sql_banner) or die(mysqli_error());
     }
     if ((strpos(strtolower($_SERVER['HTTP_ACCEPT']),'application/vnd.wap.xhtml+xml') > 0) or ((isset($_SERVER['HTTP_X_WAP_PROFILE']) or isset($_SERVER['HTTP_PROFILE'])))) {
         $mobile_browser++;
-    }    
+    }
 
     $mobile_ua = strtolower(substr($_SERVER['HTTP_USER_AGENT'], 0, 4));
     $mobile_agents = array(
@@ -154,8 +154,8 @@ $rs_banner = mysqli_query($conn,$sql_banner) or die(mysqli_error());
                         </a>
                     </li>
 
-                    
-                    <?php 
+
+                    <?php
                     //Kiểm tra nếu coockie đã đăng nhập
                     if(isset($_COOKIE["USERNAME_CUS"])) {
                         $tendangnhap = $_COOKIE["USERNAME_CUS"];
@@ -168,10 +168,10 @@ $rs_banner = mysqli_query($conn,$sql_banner) or die(mysqli_error());
 
 
 
-                    echo 'Xin chào '.$fullname . ' ! '; 
+                    echo 'Xin chào '.$fullname . ' ! ';
 
 
-                     echo '<a href="#" class="pull-left"><img src="images/'.$url_img_avata.'" height="36" width="36" ></a>'; 
+                     echo '<a href="#" class="pull-left"><img src="images/'.$url_img_avata.'" height="36" width="36" ></a>';
 
 
                     echo '<li class="nav-item">
@@ -198,8 +198,6 @@ $rs_banner = mysqli_query($conn,$sql_banner) or die(mysqli_error());
                                 </a>
                             </li>';
                     }
-
-
                     ?>
                 </ul>
 
@@ -225,7 +223,7 @@ $rs_banner = mysqli_query($conn,$sql_banner) or die(mysqli_error());
                         }
                         echo '">
                             <img class="d-block w-100" src="assets/img_banner/'.$row["BANNER"].'" alt="First slide" >
-                         
+
                         </div>';
                         }
                         ?>
@@ -327,7 +325,7 @@ $rs_banner = mysqli_query($conn,$sql_banner) or die(mysqli_error());
                         // Create a transparent button that will make a whole item card clickable
                     ."    <button type='submit' name='getidagri'value='".$row["ID_AGRI"]."' style='height:410px; background-color:transparent; border-color:transparent; cursor: pointer;'>"
                     ."    <div class='card card-product'>"
-                    ."        <div class='card-header card-header-image'>"    
+                    ."        <div class='card-header card-header-image'>"
                     ."                <img alt='' src='assets/img_agric/".$row['IMG_URL_AGRI']."'>"
                     ."            <div class='colored-shadow' style='background-image: url('assets/img_agric/".$row['IMG_URL_AGRI']."'); opacity: 1;'></div>"
                     ."        </div>"

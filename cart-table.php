@@ -77,7 +77,51 @@ $rs = mysqli_query($conn,$sql) or die(mysqlii_error());
 
                 <!-- Rightside Links -->
                 <ul class="navbar-nav">
-                    <li class="nav-item">
+                  <?php
+                  //Kiểm tra nếu coockie đã đăng nhập
+                  if(isset($_COOKIE["USERNAME_CUS"])) {
+                      $tendangnhap = $_COOKIE["USERNAME_CUS"];
+
+                      $sql = "SELECT * FROM CUSTOMER WHERE USERNAME_CUS = '". $tendangnhap. "' LIMIT 1";
+                      $rs_user = mysqli_query($conn,$sql) or die(mysqlii_error());
+                      $row = mysqli_fetch_array($rs_user);
+                      $fullname = $row['FULLNAME_CUS'];
+                      $url_img_avata = $row['IMG_URL_CUS'];
+
+
+
+                  echo 'Xin chào '.$fullname . ' ! ';
+
+
+                   echo '<a href="#" class="pull-left"><img src="images/'.$url_img_avata.'" height="36" width="36" ></a>';
+
+
+                  echo '<li class="nav-item">
+
+                          <a class="nav-link" href="signout.php">
+                              <i class="material-icons">content_paste</i>
+                              Đăng xuất
+                          </a>
+                      </li>';
+
+
+
+                  }else{
+                      echo '<li class="nav-item">
+                              <a class="nav-link" href="signup.php">
+                                  <i class="material-icons">content_paste</i>
+                                  Đăng ký
+                              </a>
+                          </li>
+                          <li class="nav-item">
+                              <a class="nav-link" href="../agric/login.php">
+                                  <i class="material-icons">account_circle</i>
+                                  Đăng nhập
+                              </a>
+                          </li>';
+                  }
+                  ?>
+                    <!-- <li class="nav-item">
                         <a class="nav-link" href="signup.php">
                             <i class="material-icons">content_paste</i>
                             Đăng ký
@@ -88,23 +132,24 @@ $rs = mysqli_query($conn,$sql) or die(mysqlii_error());
                             <i class="material-icons">account_circle</i>
                             Đăng nhập
                         </a>
-                    </li>
+                    </li> -->
                 </ul>
 
             </div>
         </div>
     </nav>
-    
+
     <!-- Carousel Slider -->
-<!--     <div id="carouselIndicators" class="carousel slide" data-ride="carousel" data-pause="hover">
+    <!-- <div id="carouselIndicators" class="carousel slide" data-ride="carousel" data-pause="hover">
         <ol class="carousel-indicators">
             <li data-target="#carouselIndicators" data-slide-to="0" class="active"></li>
             <li data-target="#carouselIndicators" data-slide-to="1"></li>
             <li data-target="#carouselIndicators" data-slide-to="2"></li>
         </ol>
         <div class="carousel-inner"> -->
+
             <!-- Auto load Slide 1 *acitve -->
-<!--             <div class="carousel-item active">
+            <!-- <div class="carousel-item active">
                 <img class="d-block w-100" src="assets/img/slider-img-1.jpg" alt="First slide">
                 <div class="carousel-caption d-none d-md-block">
                     <h1>Khuyến mãi</h1>
