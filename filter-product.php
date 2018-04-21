@@ -72,6 +72,20 @@ if (isset($_POST['KEYWORD'])) {
 
 ?>
 
+<!-- css -->
+<style>
+.vl {
+    border-left: 1px solid green;
+
+}
+
+.vcenter {
+    display: inline-block;
+    vertical-align: middle;
+    float: none;
+}
+</style>
+
 <!doctype html>
 <html lang="en">
 
@@ -111,10 +125,10 @@ if (isset($_POST['KEYWORD'])) {
                 <i class="material-icons">spa</i>
             </a>
 
-            <form class="form-inline">
+            <form class="form-inline" >
                 <div class="form-group has-white" style="padding-left: 200px;">
                     <input id="inputSearch" class="form-control" type="text"
-                    placeholder="Tìm sản phẩm" style="width:300px;" value="<?php echo $keyword; ?>">
+                    placeholder="Tìm sản phẩm" style="width:300px;" value="<?php echo $keyword; ?>" onkeypress="return runScript(event)">
                 </div>
                 <button type="button" class="btn btn-white btn-raised btn-fab btn-fab-mini btn-round ml-2" onclick="showSearchResult()">
                     <i class="material-icons">search</i>
@@ -187,37 +201,37 @@ if (isset($_POST['KEYWORD'])) {
     <div class="main main-raised">
         <div class="section">
             <div class="container">
-                <h2 class="section-title">Tìm kiếm</h2>
+                <h2 class="section-title col-md-3">Tìm kiếm</h2>
                 <div class="row">
                     <!-- Filter Side -->
                     <div class="col-md-3">
                         <div class="card card-refine card-plain card-success">
                             <div class="card-body">
                                 <h4 class="card-title">
-                                    Làm mới bộ lọc
-                                    <button title="" class="btn btn-default btn-fab btn-fab-mini btn-link pull-right" data-original-title="Làm mới bộ lọc" rel="tooltip">
-                                        <i class="material-icons">cached</i>
-                                    </button>
+                                    Bộ lọc nông sản
+
                                 </h4>
                                 <div id="accordion" role="tablist">
+                                  <!-- Bộ lọc giá -->
                                     <div class="card card-collapse">
                                         <div class="card-header" id="headingOne" role="tab">
                                             <h5 class="mb-0">
                                                 <a aria-expanded="true" aria-controls="collapseOne" href="#collapseOne" data-toggle="collapse">
-                                                    Giá từ
+                                                    Giá từ                     (Đơn vị tính: VND)
                                                     <i class="material-icons">keyboard_arrow_down</i>
                                                 </a>
                                             </h5>
                                         </div>
                                         <div class="collapse show" id="collapseOne" role="tabpanel" aria-labelledby="headingOne">
                                             <div class="card-body card-refine">
-                                                <span class="price-left pull-left" id="price-left" data-currency=" VNĐ"></span>
-                                                <span class="price-right pull-right" id="price-right" data-currency=" VNĐ"></span>
+                                                <span class="price-left pull-left" id="price_left" data-currency=" VNĐ">1000</span>
+                                                <span class="price-right pull-right" id="price_right" data-currency=" VNĐ">500000</span>
                                                 <div class="clearfix"></div>
                                                 <div id="sliderDouble" class="slider slider-success"></div>
                                             </div>
                                         </div>
                                     </div>
+                                    <!-- Lọc theo loại nông sản -->
                                     <div class="card card-collapse">
                                         <div class="card-header" id="headingTwo" role="tab">
                                             <h5 class="mb-0">
@@ -231,7 +245,7 @@ if (isset($_POST['KEYWORD'])) {
                                             <div class="card-body">
                                                 <div class="form-check">
                                                     <label class="form-check-label">
-                                                        <input class="form-check-input" type="checkbox" checked="" value=""> Tất cả
+                                                        <input class="form-check-input" name='kindAgri' type="radio" checked value=0> Tất cả
                                                         <span class="form-check-sign">
                                                             <span class="check"></span>
                                                         </span>
@@ -240,15 +254,18 @@ if (isset($_POST['KEYWORD'])) {
 
                                                 <!-- PHP fucntion select -->
                                                 <?php
+                                                $i = 1;
                                                 while ($row = mysqli_fetch_array($rs_kind)) {
+
                                                 echo" <div class='form-check'>"
                                                 ."    <label class='form-check-label'>"
-                                                ."        <input class='form-check-input' type='checkbox' value=''>". $row['NAME_KIND']
+                                                ."        <input class='form-check-input' name='kindAgri' type='radio' value=".$i.">". $row['NAME_KIND']
                                                 ."        <span class='form-check-sign'>"
                                                 ."            <span class='check'></span>"
                                                 ."        </span>"
                                                 ."    </label>"
                                                 ."</div>";
+                                                $i++;
                                                 }
                                                 ?>
 
@@ -256,12 +273,24 @@ if (isset($_POST['KEYWORD'])) {
                                         </div>
                                     </div>
 
+                                    <!-- Nút áp dụng -->
+                                    <br>
+                                    <br>
+                                    <div class="ml-auto mr-auto text-center" >
+                                				<button class="btn btn-success btn-round text-center" role="button" onclick="showSearchResult()">Áp dụng</button>
+                                		</div>
+
                                 </div>
                             </div>
                         </div>
+
                     </div>
+
+                    <!-- <div class="vl"></div> -->
+
 <!-- Product side -->
                     <div class="col-md-9">
+
                         <div class="row" id="result_search">
                             <!-- PHP fucntion select 9 product -->
                             <?php
@@ -434,8 +463,46 @@ if (isset($_POST['KEYWORD'])) {
     <!-- Slider JS -->
     <script>
 
+    //Khởi tạo Bộ lọc giá
+      $('span').bind('dblclick',
+               function(){
+                   $(this).attr('contentEditable',true);
+               });
+      $(document).ready(function () {
+          var slider2 = document.getElementById('sliderDouble');
+          noUiSlider.create(slider2, {
+              start: [1, 500],
+              connect: true,
+              range: {
+                  'min': [1],
+                  'max': [500]
+              }
+          });
+          var limitFieldMin = document.getElementById('price_left');
+          var limitFieldMax = document.getElementById('price_right');
+          // Add Price text on top of handle
+          slider2.noUiSlider.on('update', function (values, handle) {
+              if (handle) {
+                  limitFieldMax.innerHTML = Math.round(values[handle]) + "000";
+              } else {
+                  limitFieldMin.innerHTML = Math.round(values[handle]) + "000";
+              }
+          });
+      });
+
+      //Xem thêm kết quả tìm kiếm
     function showSearchResultContinue() {
+      var minPrice = document.getElementById('price_left').innerHTML;
+      var maxPrice = document.getElementById('price_right').innerHTML;
       var inputSearch = document.getElementById("inputSearch").value;
+      var kindAgri = 0;
+      var checkbox = document.getElementsByName("kindAgri");
+      for (var i = 0; i < checkbox.length; i++){
+          if (checkbox[i].checked === true){
+            kindAgri = checkbox[i].value;
+
+          }
+      }
 
       var xmlhttp = new XMLHttpRequest();
       xmlhttp.onreadystatechange = function() {
@@ -448,14 +515,27 @@ if (isset($_POST['KEYWORD'])) {
       };
       xmlhttp.open("POST", "view_search.php", true);
       xmlhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-      xmlhttp.send("KEYWORD="+inputSearch);
+      xmlhttp.send("KEYWORD="+inputSearch+"&minPrice="+minPrice+"&maxPrice="+maxPrice+"&kindAgri="+kindAgri);
     }
 
-    // Lấy dữ liệu
-
+    //Kết quả tìm kiếm
     function showSearchResult() {
 
+      var minPrice = document.getElementById('price_left').innerHTML;
+      var maxPrice = document.getElementById('price_right').innerHTML;
+
       var inputSearch = document.getElementById("inputSearch").value;
+
+
+      var kindAgri = 0;
+      var checkbox = document.getElementsByName("kindAgri");
+      for (var i = 0; i < checkbox.length; i++){
+          if (checkbox[i].checked === true){
+            kindAgri = checkbox[i].value;
+
+          }
+      }
+
 
       if (inputSearch!="") {
         var xmlhttp1 = new XMLHttpRequest();
@@ -471,40 +551,26 @@ if (isset($_POST['KEYWORD'])) {
         };
         xmlhttp1.open("POST", "view_search.php", true);
         xmlhttp1.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-        xmlhttp1.send("MAIN=0&KEYWORD="+inputSearch);
+        xmlhttp1.send("MAIN=0&KEYWORD="+inputSearch+"&minPrice="+minPrice+"&maxPrice="+maxPrice+"&kindAgri="+kindAgri);
       }else {
         document.getElementById("result_search").innerHTML = "Bạn chưa nhập từ khóa tìm kiếm"
       }
 
 
     }
-    showSearchResult();
+
+    function runScript(e) {
+      if (e.keyCode == 13) {
+        showSearchResult();
+
+      }
+    }
 
 
-        $(document).ready(function () {
 
-            var slider2 = document.getElementById('sliderDouble');
+    //Kết quả tìm kiếm từ trang khác sang
+      showSearchResult();
 
-            noUiSlider.create(slider2, {
-                start: [20, 45],
-                connect: true,
-                range: {
-                    'min': [10],
-                    'max': [80]
-                }
-            });
-
-            var limitFieldMin = document.getElementById('price-left');
-            var limitFieldMax = document.getElementById('price-right');
-            // Add Price text on top of handle
-            slider2.noUiSlider.on('update', function (values, handle) {
-                if (handle) {
-                    limitFieldMax.innerHTML = Math.round(values[handle]) + ".000" + $('#price-right').data('currency');
-                } else {
-                    limitFieldMin.innerHTML = Math.round(values[handle]) + ".000" + $('#price-left').data('currency');
-                }
-            });
-        });
     </script>
 </body>
 
