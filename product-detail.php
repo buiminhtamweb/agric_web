@@ -110,11 +110,11 @@ if ($soLuong < $amountAgric) { //Nếu số lượng mua nhỏ hơn số lượn
                 <i class="material-icons">spa</i>
             </a>
 
-            <form class="form-inline">
+						<form class="form-inline" method="post" action="filter-product.php">
                 <div class="form-group has-white" style="padding-left: 200px;">
-                    <input class="form-control" type="text" placeholder="Tìm sản phẩm" style="width:300px;">
+                    <input name="KEYWORD" class="form-control" type="text" placeholder="Tìm sản phẩm" style="width:300px;">
                 </div>
-                <button type="button" class="btn btn-white btn-raised btn-fab btn-fab-mini btn-round ml-2" onclick="window.location.href='filter-product.php'">
+                <button type="submit" class="btn btn-white btn-raised btn-fab btn-fab-mini btn-round ml-2">
                     <i class="material-icons">search</i>
                 </button>
             </form>
@@ -275,6 +275,7 @@ if ($soLuong < $amountAgric) { //Nếu số lượng mua nhỏ hơn số lượn
     <!-- Main content -->
     <div class="section section-gray">
         <div class="container">
+					<!-- THông tin chi tiết NS -->
             <div class="main main-raised main-product">
                 <div class="row">
                     <div class="col-md-6 col-sm-6">
@@ -325,9 +326,21 @@ if ($soLuong < $amountAgric) { //Nếu số lượng mua nhỏ hơn số lượn
 
                         <!-- PHP Get data from id_agri -->
 
+
                         <?php
+												// Chuyển đổi đơn vị
+
+												if ($row_kind['AMOUNT_AGRI']>=1000){
+													$conLai = ($row_kind['AMOUNT_AGRI']/1000)." Kg";
+												}else {
+													$conLai = $row_kind['AMOUNT_AGRI']." Gam";
+												}
+
+
                         echo "<h2 class='title'>" .$row_kind['NAME_AGRI']. "</h2>"
                         ."<h3 class='main-price'>".$row_kind['PRICE_AGRI']. "VNĐ/KG</h3>"
+												."<h4 >Còn lại: ".$conLai."</h4>"
+
                         ."<div id='accordion' role='tablist'>"
                         ."    <div class='card card-collapse'>"
                         ."        <div class='card-header' role='tab' id='headingOne'>"
@@ -378,6 +391,7 @@ if ($soLuong < $amountAgric) { //Nếu số lượng mua nhỏ hơn số lượn
                     </div>
                 </div>
             </div>
+						<!-- Giới thiệu dịch vụ vận chuyển và cam kết sản phẩm -->
             <div class="features text-center">
                 <div class="row">
                     <div class="col-md-4">
@@ -417,6 +431,11 @@ if ($soLuong < $amountAgric) { //Nếu số lượng mua nhỏ hơn số lượn
                 <!-- PHP fucntion select sale product -->
                 <?php
                     while ($row = mysqli_fetch_array($rs_lq)) {
+											if ($row['AMOUNT_AGRI']>=1000){
+												$conLai = ($row['AMOUNT_AGRI']/1000)." Kg";
+											}else {
+												$conLai = $row['AMOUNT_AGRI']." Gam";
+											}
                     echo "<div class='col-md-3'>"
                     ."    <form id='itemform' method='POST' action='product-detail.php'>"
                     // Create a transparent button that will make a whole item card clickable
@@ -431,12 +450,8 @@ if ($soLuong < $amountAgric) { //Nếu số lượng mua nhỏ hơn số lượn
                     ."            <h4 class='card-title'>"
                     ."                <a href='product-detail.html'>".$row['NAME_AGRI']."</a>"
                     ."            </h4>"
-                    ."            <p class='card-description'>".$row['DETAIL_AGRI']."</p>"
-                    ."        </div>"
-                    ."        <div class='card-footer'>"
-                    ."            <div class='price-container'>"
-                    ."                <span class='price'>".$row['PRICE_AGRI']." VNĐ/KG</span>"
-                    ."            </div>"
+                    ."            <p class='card-description'>Còn lại: ".$conLai."</p>"
+										."            <span class='price'>".$row['PRICE_AGRI']." VNĐ/KG</span>"
                     ."        </div>"
                     ."    </div>"
                     ."    </button>"

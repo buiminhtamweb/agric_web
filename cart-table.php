@@ -115,18 +115,17 @@ function viewProductDe(idAgric) {
 </head>
 
 <body class="product-page ">
-    <nav class="navbar navbar-color-on-scroll fixed-top navbar-expand-lg bg-success"
-        style="min-width: 1024px;">
+    <nav class="navbar navbar-color-on-scroll fixed-top navbar-expand-lg bg-success" color-on-scroll="0" style="min-width: 1024px;">
         <div class="container">
             <a class="navbar-brand" href="../agric/index.php">
                 <i class="material-icons">spa</i>
             </a>
 
-            <form class="form-inline">
+            <form class="form-inline" method="post" action="filter-product.php">
                 <div class="form-group has-white" style="padding-left: 200px;">
-                    <input class="form-control" type="text" placeholder="Tìm sản phẩm" style="width:300px;">
+                    <input name="KEYWORD" class="form-control" type="text" placeholder="Tìm sản phẩm" style="width:300px;">
                 </div>
-                <button type="button" class="btn btn-white btn-raised btn-fab btn-fab-mini btn-round ml-2" onclick="window.location.href='filter-product.php'">
+                <button type="submit" class="btn btn-white btn-raised btn-fab btn-fab-mini btn-round ml-2">
                     <i class="material-icons">search</i>
                 </button>
             </form>
@@ -142,23 +141,7 @@ function viewProductDe(idAgric) {
 
 
             <div class="collapse navbar-collapse nav justify-content-end" id="navbarsCollapse">
-                <!-- Leftside -->
-                <!-- <ul class="navbar-nav mr-auto">
-                <li class="nav-item active">
-                    <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
-                </li>
-                <li class="nav-item">
-                   <a class="nav-link disabled" href="#">Disabled</a>
-                </li>
-                <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Dropdown</a>
-                <div class="dropdown-menu" aria-labelledby="dropdown01">
-                  <a class="dropdown-item" href="#">Action</a>
-                  <a class="dropdown-item" href="#">Another action</a>
-                  <a class="dropdown-item" href="#">Something else here</a>
-                </div>
-              </li>
-            </ul> -->
+
 
                 <!-- Rightside Links -->
                 <ul class="navbar-nav">
@@ -206,65 +189,14 @@ function viewProductDe(idAgric) {
                           </li>';
                   }
                   ?>
-                    <!-- <li class="nav-item">
-                        <a class="nav-link" href="signup.php">
-                            <i class="material-icons">content_paste</i>
-                            Đăng ký
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="../agric/login.html">
-                            <i class="material-icons">account_circle</i>
-                            Đăng nhập
-                        </a>
-                    </li> -->
+
                 </ul>
 
             </div>
         </div>
     </nav>
 
-    <!-- Carousel Slider -->
-    <!-- <div id="carouselIndicators" class="carousel slide" data-ride="carousel" data-pause="hover">
-        <ol class="carousel-indicators">
-            <li data-target="#carouselIndicators" data-slide-to="0" class="active"></li>
-            <li data-target="#carouselIndicators" data-slide-to="1"></li>
-            <li data-target="#carouselIndicators" data-slide-to="2"></li>
-        </ol>
-        <div class="carousel-inner"> -->
 
-            <!-- Auto load Slide 1 *acitve -->
-            <!-- <div class="carousel-item active">
-                <img class="d-block w-100" src="assets/img/slider-img-1.jpg" alt="First slide">
-                <div class="carousel-caption d-none d-md-block">
-                    <h1>Khuyến mãi</h1>
-                    <h3>Giảm 20% đối với các loại Gạo</h3>
-                </div>
-            </div>
-            <div class="carousel-item">
-                <img class="d-block w-100" src="assets/img/slider-img-1.jpg" alt="Second slide">
-                <div class="carousel-caption d-none d-md-block">
-                    <h1>Khuyến mãi</h1>
-                    <h3>Giảm 20% đối với các loại Gạo</h3>
-                </div>
-            </div>
-            <div class="carousel-item">
-                <img class="d-block w-100" src="assets/img/slider-img-1.jpg" alt="Third slide">
-                <div class="carousel-caption d-none d-md-block">
-                    <h1>Khuyến mãi</h1>
-                    <h3>Giảm 20% đối với các loại Gạo</h3>
-                </div>
-            </div>
-        </div>
-        <a class="carousel-control-prev" href="#carouselIndicators" role="button" data-slide="prev">
-            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-            <span class="sr-only">Previous</span>
-        </a>
-        <a class="carousel-control-next" href="#carouselIndicators" role="button" data-slide="next">
-            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-            <span class="sr-only">Next</span>
-        </a>
-    </div> -->
     <br>
     <br>
     <br>
@@ -351,24 +283,13 @@ function viewProductDe(idAgric) {
                                     ."            <small> VNĐ</small>"
                                     ."        </td>"
                                     ."        <td class='td-number text-center'>"
-                                    // ."            <input type='text' name='NUM_OF_AGRI' id='TextBox' value='"
+
                                     .             $soLuongMua
-                                    // .             "' style='width:75px;'/>"
-                                    // ."            <div>"
-                                    // ."              <button id='RemoveButton' type='button' rel='tooltip' class='btn btn-danger btn-fab btn-fab-mini btn-round'>"
-                                    // ."                  <i class='material-icons'>remove</i>"
-                                    // ."              </button> "
-                                    // ."              <button id='AddButton' type='button' rel='tooltip' class='btn btn-success btn-fab btn-fab-mini btn-round'>"
-                                    // ."                  <i class='material-icons'>add</i>"
-                                    // ."              </button>"
-                                    // ."            </div>"
+
                                     ."        </td>"
                                     ."        <td>"
                                     ."            <div class='form-group' style='width: 30px;'>"
-                                    // ."                <select class='form-control' id='weightSelect'>"
-                                    // ."                    <option>g</option>"
-                                    // ."                    <option>kg</option>"
-                                    // ."                </select>"
+
                                     .             $donVi
                                     ."            </div>"
                                     ."        </td>"
@@ -457,122 +378,7 @@ function viewProductDe(idAgric) {
                 </div>
             </div>
         </div>
-        <!-- Relative Products -->
-        <div class="section">
-            <div class="container">
-                <h3 class="title text-center">Các sản phẩm liên quan: </h3>
-                <div class="row">
-                    <div class="col-md-3">
-                        <div class="card card-product">
-                            <div class="card-header card-header-image">
-                                <a href="#pablo">
-                                    <img class="img" src="assets/img/thumbnail-product.jpg">
-                                </a>
-                            </div>
-                            <div class="card-body">
-                                <h4 class="card-title">
-                                    <a href="product-detail.html">Gạo Nhật</a>
-                                </h4>
-                                <div class="card-description">
-                                    Mô tả sp.
-                                </div>
-                            </div>
-                            <div class="card-footer justify-content-between">
-                                <div class="price">
-                                    <h4>20.000 VNĐ/KG</h4>
-                                </div>
-                                <div class="stats">
-                                    <button type="button" rel="tooltip" title="Saved to Wishlist" class="btn btn-just-icon btn-link btn-success">
-                                        <i class="material-icons">favorite</i>
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-3">
-                        <div class="card card-product">
-                            <div class="card-header card-header-image">
-                                <a href="#pablo">
-                                    <img class="img" src="assets/img/thumbnail-product.jpg">
-                                </a>
-                            </div>
-                            <div class="card-body">
-                                <h4 class="card-title">
-                                    <a href="product-detail.html">Gạo Nhật</a>
-                                </h4>
-                                <div class="card-description">
-                                    Mô tả sp.
-                                </div>
-                            </div>
-                            <div class="card-footer justify-content-between">
-                                <div class="price">
-                                    <h4>20.000 VNĐ/KG</h4>
-                                </div>
-                                <div class="stats">
-                                    <button type="button" rel="tooltip" title="Saved to Wishlist" class="btn btn-just-icon btn-link btn-success">
-                                        <i class="material-icons">favorite</i>
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-3">
-                        <div class="card card-product">
-                            <div class="card-header card-header-image">
-                                <a href="#pablo">
-                                    <img class="img" src="assets/img/thumbnail-product.jpg">
-                                </a>
-                            </div>
-                            <div class="card-body">
-                                <h4 class="card-title">
-                                    <a href="product-detail.html">Gạo Nhật</a>
-                                </h4>
-                                <div class="card-description">
-                                    Mô tả sp.
-                                </div>
-                            </div>
-                            <div class="card-footer justify-content-between">
-                                <div class="price">
-                                    <h4>20.000 VNĐ/KG</h4>
-                                </div>
-                                <div class="stats">
-                                    <button type="button" rel="tooltip" title="Saved to Wishlist" class="btn btn-just-icon btn-link btn-success">
-                                        <i class="material-icons">favorite</i>
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-3">
-                        <div class="card card-product">
-                            <div class="card-header card-header-image">
-                                <a href="#pablo">
-                                    <img class="img" src="assets/img/thumbnail-product.jpg">
-                                </a>
-                            </div>
-                            <div class="card-body">
-                                <h4 class="card-title">
-                                    <a href="product-detail.html">Gạo Nhật</a>
-                                </h4>
-                                <div class="card-description">
-                                    Mô tả sp.
-                                </div>
-                            </div>
-                            <div class="card-footer justify-content-between">
-                                <div class="price">
-                                    <h4>20.000 VNĐ/KG</h4>
-                                </div>
-                                <div class="stats">
-                                    <button type="button" rel="tooltip" title="Saved to Wishlist" class="btn btn-just-icon btn-link btn-success">
-                                        <i class="material-icons">favorite</i>
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+
     </div>
     </div>
     <!-- Footer -->
@@ -669,8 +475,8 @@ function viewProductDe(idAgric) {
     <!-- Placed at the end of the document so the pages load faster -->
     <script src="assets/js/bootstrap.js"></script>
     <!--   Core JS Files   -->
-    <script src="assets/js/core/jquery.min.js"></script>
-    <script src="assets/js/core/popper.min.js"></script>
+    <!-- <script src="assets/js/core/jquery.min.js"></script> -->
+    <!-- <script src="assets/js/core/popper.min.js"></script> -->
     <script src="assets/js/bootstrap-material-design.js"></script>
 
     <!-- Plugin for Date Time Picker and Full Calendar Plugin-->
@@ -699,33 +505,6 @@ function viewProductDe(idAgric) {
     <!--  Google Maps Plugin    -->
     <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=YOUR_KEY_HERE"></script>
 
-    <!-- Add/Remove button -->
-    <!-- <script>
-        $(document).ready(function(){
-            $('#AddButton').click( function() {
-                var counter = $('#TextBox').val();
-                counter++ ;
-                $('#TextBox').val(counter);
-
-                var giaHienTai = $('#TextBox').val();
-
-
-            });
-            $('#RemoveButton').click( function() {
-                var counter = $('#TextBox').val();
-                counter-- ;
-                if (counter < 0 ) {
-                  counter = 0;
-                }
-                $('#TextBox').val(counter);
-
-            });
-
-
-        });
-
-
-    </script> -->
 </body>
 
 </html>

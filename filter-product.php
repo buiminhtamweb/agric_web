@@ -21,12 +21,14 @@ $incr_product = 0;
 $sql_kind = "SELECT * FROM kinds Order by ID_KIND";
 $rs_kind = mysqli_query($conn,$sql_kind) or die(mysqli_error());
 
-#Select name agri
-$sql_name = "SELECT ID_AGRI,NAME_AGRI FROM agricultural Order by ID_AGRI";
-$rs_name = mysqli_query($conn,$sql_name) or die(mysqli_error());
+// #Select name agri
+// $sql_name = "SELECT ID_AGRI,NAME_AGRI FROM agricultural Order by ID_AGRI";
+// $rs_name = mysqli_query($conn,$sql_name) or die(mysqli_error());
 
 function loadItem($incr_product,$conn) {
-    $sql_sp = "SELECT * FROM agricultural,kinds WHERE agricultural.ID_KIND = kinds.ID_KIND Order by ID_AGRI LIMIT 9 OFFSET 1";
+    $sql_sp = "SELECT * FROM agricultural,kinds
+    WHERE agricultural.ID_KIND = kinds.ID_KIND AND
+    Order by ID_AGRI LIMIT 9 OFFSET 1";
     $rs_sp = mysqli_query($conn,$sql_sp) or die(mysqli_error());
     while ($row = mysqli_fetch_array($rs_sp)) {
         echo "<div class='col-md-4'>"
@@ -62,7 +64,11 @@ function loadItem($incr_product,$conn) {
         ."    <!-- end card -->"
         ."</div>";
         }
-} 
+}
+$keyword = "";
+if (isset($_POST['KEYWORD'])) {
+  $keyword = $_POST['KEYWORD'];
+}
 
 ?>
 
@@ -98,7 +104,7 @@ function loadItem($incr_product,$conn) {
 
 <body class="ecommerce">
     <!-- Navigation bar -->
-    <nav class="navbar navbar-color-on-scroll fixed-top navbar-expand-lg navbar-transparent bg-success" color-on-scroll="100"
+    <nav class="navbar navbar-color-on-scroll fixed-top navbar-expand-lg bg-success" color-on-scroll="0"
         style="min-width: 1024px;">
         <div class="container">
             <a class="navbar-brand" href="../agric/index.php">
@@ -107,9 +113,10 @@ function loadItem($incr_product,$conn) {
 
             <form class="form-inline">
                 <div class="form-group has-white" style="padding-left: 200px;">
-                    <input class="form-control" type="text" placeholder="Tìm sản phẩm" style="width:300px;">
+                    <input id="inputSearch" class="form-control" type="text"
+                    placeholder="Tìm sản phẩm" style="width:300px;" value="<?php echo $keyword; ?>">
                 </div>
-                <button type="button" class="btn btn-white btn-raised btn-fab btn-fab-mini btn-round ml-2" onclick="window.location.href='filter-product.php'">
+                <button type="button" class="btn btn-white btn-raised btn-fab btn-fab-mini btn-round ml-2" onclick="showSearchResult()">
                     <i class="material-icons">search</i>
                 </button>
             </form>
@@ -122,26 +129,7 @@ function loadItem($incr_product,$conn) {
                 <span class="navbar-toggler-icon"></span>
             </button>
 
-
-
             <div class="collapse navbar-collapse nav justify-content-end" id="navbarsCollapse">
-                <!-- Leftside -->
-                <!-- <ul class="navbar-nav mr-auto">
-                <li class="nav-item active">
-                    <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
-                </li>
-                <li class="nav-item">
-                   <a class="nav-link disabled" href="#">Disabled</a>
-                </li>
-                <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Dropdown</a>
-                <div class="dropdown-menu" aria-labelledby="dropdown01">
-                  <a class="dropdown-item" href="#">Action</a>
-                  <a class="dropdown-item" href="#">Another action</a>
-                  <a class="dropdown-item" href="#">Something else here</a>
-                </div>
-              </li>
-            </ul> -->
 
                 <!-- Rightside Links -->
                 <ul class="navbar-nav">
@@ -151,120 +139,54 @@ function loadItem($incr_product,$conn) {
                             Giỏ hàng
                         </a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="signup.php">
-                            <i class="material-icons">content_paste</i>
-                            Đăng ký
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="../agric/login.html">
-                            <i class="material-icons">account_circle</i>
-                            Đăng nhập
-                        </a>
-                    </li>
+                    <?php
+                    //Kiểm tra nếu coockie đã đăng nhập
+                    if(isset($_COOKIE["USERNAME_CUS"])) {
+                        $tendangnhap = $_COOKIE["USERNAME_CUS"];
+                        $sql = "SELECT * FROM CUSTOMER WHERE USERNAME_CUS = '". $tendangnhap. "' LIMIT 1";
+                        $rs_user = mysqli_query($conn,$sql) or die(mysqlii_error());
+                        $row = mysqli_fetch_array($rs_user);
+                        $fullname = $row['FULLNAME_CUS'];
+                        $url_img_avata = $row['IMG_URL_CUS'];
+                    echo 'Xin chào '.$fullname . ' ! ';
+                     echo '<a href="#" class="pull-left"><img src="images/'.$url_img_avata.'" height="36" width="36" ></a>';
+                    echo '<li class="nav-item">
+                            <a class="nav-link" href="signout.php">
+                                <i class="material-icons">content_paste</i>
+                                Đăng xuất
+                            </a>
+                        </li>';
+                    }else{
+                        echo '<li class="nav-item">
+                                <a class="nav-link" href="signup.php">
+                                    <i class="material-icons">content_paste</i>
+                                    Đăng ký
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="../agric/login.php">
+                                    <i class="material-icons">account_circle</i>
+                                    Đăng nhập
+                                </a>
+                            </li>';
+                    }
+                    ?>
                 </ul>
 
             </div>
         </div>
     </nav>
-    <!-- Carousel Slider -->
-    <div id="carouselIndicators" class="carousel slide" data-ride="carousel" data-pause="hover">
-        <ol class="carousel-indicators">
-            <li data-target="#carouselIndicators" data-slide-to="0" class="active"></li>
-            <li data-target="#carouselIndicators" data-slide-to="1"></li>
-            <li data-target="#carouselIndicators" data-slide-to="2"></li>
-        </ol>
-        <div class="carousel-inner">
-            <!-- Auto load Slide 1 *acitve -->
-            <div class="carousel-item active">
-                <img class="d-block w-100" src="assets/img/slider-img-1.jpg" alt="First slide">
-                <div class="carousel-caption d-none d-md-block">
-                    <h1>Khuyến mãi</h1>
-                    <h3>Giảm 20% đối với các loại Gạo</h3>
-                </div>
-            </div>
-            <div class="carousel-item">
-                <img class="d-block w-100" src="assets/img/slider-img-1.jpg" alt="Second slide">
-                <div class="carousel-caption d-none d-md-block">
-                    <h1>Khuyến mãi</h1>
-                    <h3>Giảm 20% đối với các loại Gạo</h3>
-                </div>
-            </div>
-            <div class="carousel-item">
-                <img class="d-block w-100" src="assets/img/slider-img-1.jpg" alt="Third slide">
-                <div class="carousel-caption d-none d-md-block">
-                    <h1>Khuyến mãi</h1>
-                    <h3>Giảm 20% đối với các loại Gạo</h3>
-                </div>
-            </div>
-        </div>
-        <a class="carousel-control-prev" href="#carouselIndicators" role="button" data-slide="prev">
-            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-            <span class="sr-only">Previous</span>
-        </a>
-        <a class="carousel-control-next" href="#carouselIndicators" role="button" data-slide="next">
-            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-            <span class="sr-only">Next</span>
-        </a>
-    </div>
+    <br>
+    <br>
+    <br>
+    <br>
     <br>
     <br>
 
-    <!-- Image header -->
-    <!-- <div class="page-header header-filter header-small" data-parallax="true" style="background-image: url('assets/img/img-header.jpg');">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-8 ml-auto mr-auto text-center">
-                    <div class="brand">
-                        <h1 class="title">Agric Shop</h1>
-                        <h4>Nông sản Online - Lấy chất lượng làm
-                            <b>Niềm tin!</b>
-                        </h4>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div> -->
     <!-- Main content -->
     <div class="main main-raised">
         <div class="section">
             <div class="container">
-                <h2 class="section-title" id="saleproduct">Nông sản giảm giá</h2>
-                <!-- Create a row -->
-                <div class="row">
-                    <!-- Page layout = 12 => 3 col (Each col = 4) -->
-                    <!-- PHP fucntion select sale product -->
-                    <?php
-                    while ($row = mysqli_fetch_array($rs_km)) {
-                    echo "<div class='col-md-4'>"
-                    ."    <form id='itemform' method='POST' action='product-detail.php'>"
-                        // Create a transparent button that will make a whole item card clickable
-                    ."    <button type='submit' name='getidagri'value='".$row["ID_AGRI"]."' style='height:410px; background-color:transparent; border-color:transparent; cursor: pointer;'>"
-                    ."    <div class='card card-product'>"
-                    ."        <div class='card-header card-header-image'>"    
-                    ."                <img alt='' src='assets/img_agric/".$row['IMG_URL_AGRI']."'>"
-                    ."            <div class='colored-shadow' style='background-image: url('assets/img_agric/".$row['IMG_URL_AGRI']."'); opacity: 1;'></div>"
-                    ."        </div>"
-                    ."        <div class='card-body text-center'>"
-                    ."            <h4 class='card-title'>"
-                    ."                <a href='product-detail.html'>".$row['NAME_AGRI']."</a>"
-                    ."            </h4>"
-                    ."            <p class='card-description'>".$row['DETAIL_AGRI']."</p>"
-                    ."        </div>"
-                    ."        <div class='card-footer'>"
-                    ."            <div class='price-container'>"
-                    ."                <span class='price price-old'> 25.000 VNĐ/KG</span>"
-                    ."                <span class='price price-new'>&nbsp;".$row['PRICE_AGRI']." VNĐ/KG</span>"
-                    ."            </div>"
-                    ."        </div>"
-                    ."    </div>"
-                    ."    </button>"
-                    ."    </form>"
-                    ."</div>";
-                    }
-                    ?>
-                </div>
                 <h2 class="section-title">Tìm kiếm</h2>
                 <div class="row">
                     <!-- Filter Side -->
@@ -333,58 +255,20 @@ function loadItem($incr_product,$conn) {
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="card card-collapse">
-                                        <div class="card-header" id="headingThree" role="tab">
-                                            <h5 class="mb-0">
-                                                <a class="collapsed" aria-expanded="false" aria-controls="collapseThree" href="#collapseThree" data-toggle="collapse">
-                                                    Nhãn hiệu
-                                                    <i class="material-icons">keyboard_arrow_down</i>
-                                                </a>
-                                            </h5>
-                                        </div>
-                                        <div class="collapse" id="collapseThree" role="tabpanel" aria-labelledby="headingThree">
-                                            <div class="card-body">
-                                                <div class="form-check">
-                                                    <label class="form-check-label">
-                                                        <input class="form-check-input" type="checkbox" checked="" value=""> Tất cả
-                                                        <span class="form-check-sign">
-                                                            <span class="check"></span>
-                                                        </span>
-                                                    </label>
-                                                </div>
 
-                                                <!-- PHP fucntion select sale product -->
-                                                <?php
-                                                while ($row = mysqli_fetch_array($rs_name)) {
-                                                echo" <div class='form-check'>"
-                                                ."    <label class='form-check-label'>"
-                                                ."        <input class='form-check-input' type='checkbox' value=''>". $row['NAME_AGRI']
-                                                ."        <span class='form-check-sign'>"
-                                                ."            <span class='check'></span>"
-                                                ."        </span>"
-                                                ."    </label>"
-                                                ."</div>";
-                                                }
-                                                ?>
-
-                                            </div>
-                                        </div>
-                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <!-- Product side -->
+<!-- Product side -->
                     <div class="col-md-9">
-                        <div class="row">
+                        <div class="row" id="result_search">
                             <!-- PHP fucntion select 9 product -->
                             <?php
-                            loadItem(0,$conn);
+                            // loadItem(0,$conn);
                             ?>
 
-                            <div class="col-md-3 ml-auto mr-auto">
-                                <button title="" class="btn btn-success btn-round" data-original-title="" rel="tooltip" onClick=loadItem>Mở rộng...</button>
-                            </div>
+
                         </div>
                     </div>
                 </div>
@@ -393,43 +277,35 @@ function loadItem($incr_product,$conn) {
         </div>
     </div>
 
-    <!-- Relative Products -->
-    <div class="section">
-        <div class="container">
-            <h3 class="title text-center">Các nông sản mới: </h3>
-            <div class="row">
-                
-                <!-- PHP fucntion select sale product -->
-                <?php
-                    while ($row = mysqli_fetch_array($rs_m)) {
-                    echo "<div class='col-md-3'>"
-                    ."    <form id='itemform' method='POST' action='product-detail.php'>"
-                    // Create a transparent button that will make a whole item card clickable
-                    ."    <button type='submit' name='getidagri'value='".$row["ID_AGRI"]."' style='background-color:transparent; border-color:transparent; cursor: pointer;'>"
-                    ."    <div class='card card-product' style='width: 110%;'>"
-                    ."        <div class='card-header card-header-image'>"
-                    ."            <a href='product-detail.html'>"
-                    ."                <img style='height: 200px;' alt='...' src='assets/img_agric/".$row['IMG_URL_AGRI']."'>"
-                    ."            </a>"
-                    ."        </div>"
-                    ."        <div class='card-body'>"
-                    ."            <h4 class='card-title'>"
-                    ."                <a href='product-detail.html'>".$row['NAME_AGRI']."</a>"
-                    ."            </h4>"
-                    ."            <p class='card-description'>".$row['DETAIL_AGRI']."</p>"
-                    ."        </div>"
-                    ."        <div class='card-footer'>"
-                    ."            <div class='price-container'>"
-                    ."                <span class='price'>".$row['PRICE_AGRI']." VNĐ/KG</span>"
-                    ."            </div>"
-                    ."        </div>"
-                    ."    </div>"
-                    ."    </button>"
-                    ."    </form>"
-                    ."</div>";
-                    }
-                ?>
-
+    <!-- Giới thiệu dịch vụ vận chuyển và cam kết sản phẩm -->
+    <div class="features text-center">
+        <div class="row">
+            <div class="col-md-4">
+                <div class="info">
+                    <div class="icon icon-success">
+                        <i class="material-icons">local_shipping</i>
+                    </div>
+                    <h4 class="info-title"> Vận chuyển nội thành trong 30 phút </h4>
+                    <p>Ngay sau khi quý khách đặt hàng trên hệ thống, chúng tôi sẽ liên lạc để xác thực đơn hàng và tiến hành giao tận nơi trong vòng 30 phút.</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="info">
+                    <div class="icon icon-success">
+                        <i class="material-icons">verified_user</i>
+                    </div>
+                    <h4 class="info-title">Đảm bảo chất lượng sản phẩm</h4>
+                    <p>Hoàn tiền 100% nếu khách hàng phát hiện sẩn phẩm kém chất lượng, không rõ nguồn gốc.</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="info">
+                    <div class="icon icon-success">
+                        <i class="material-icons">group</i>
+                    </div>
+                    <h4 class="info-title">Đội ngũ nhân viên chuyên nghiệp</h4>
+                    <p>Với mong muốn mang lại sự hài lòng cho quý khách hàng và nâng cao chất lượng cửa hàng. Agric Shop đã không ngừng cải tiến nâng cao trình độ đội ngũ nhân viên tư vấn bán hàng.</p>
+                </div>
             </div>
         </div>
     </div>
@@ -528,7 +404,7 @@ function loadItem($incr_product,$conn) {
     <script src="assets/js/bootstrap.js"></script>
     <!--   Core JS Files   -->
     <script src="assets/js/core/jquery.min.js"></script>
-    <script src="assets/js/core/popper.min.js"></script>
+    <!-- <script src="assets/js/core/popper.min.js"></script> -->
     <script src="assets/js/bootstrap-material-design.js"></script>
 
     <!-- Plugin for Date Time Picker and Full Calendar Plugin-->
@@ -557,6 +433,54 @@ function loadItem($incr_product,$conn) {
 
     <!-- Slider JS -->
     <script>
+
+    function showSearchResultContinue() {
+      var inputSearch = document.getElementById("inputSearch").value;
+
+      var xmlhttp = new XMLHttpRequest();
+      xmlhttp.onreadystatechange = function() {
+          if (this.readyState == 4 && this.status == 200) {
+
+              $("#div_btnmore").remove();
+              document.getElementById("result_search").innerHTML += this.responseText;
+
+          }
+      };
+      xmlhttp.open("POST", "view_search.php", true);
+      xmlhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+      xmlhttp.send("KEYWORD="+inputSearch);
+    }
+
+    // Lấy dữ liệu
+
+    function showSearchResult() {
+
+      var inputSearch = document.getElementById("inputSearch").value;
+
+      if (inputSearch!="") {
+        var xmlhttp1 = new XMLHttpRequest();
+        xmlhttp1.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+
+              if (this.responseText == "") {
+                document.getElementById("result_search").innerHTML = "Không tìm thấy nông sản!"
+              }else {
+                document.getElementById("result_search").innerHTML = this.responseText;
+              }
+            }
+        };
+        xmlhttp1.open("POST", "view_search.php", true);
+        xmlhttp1.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+        xmlhttp1.send("MAIN=0&KEYWORD="+inputSearch);
+      }else {
+        document.getElementById("result_search").innerHTML = "Bạn chưa nhập từ khóa tìm kiếm"
+      }
+
+
+    }
+    showSearchResult();
+
+
         $(document).ready(function () {
 
             var slider2 = document.getElementById('sliderDouble');
