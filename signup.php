@@ -3,10 +3,105 @@
 session_start();
 
 include_once("config.php");
+$uploadOk = 1;
+function uploadImg(){
+  //Upload hình ảnh
+  $globals['uploadOk'] = 1;
+  $target_dir = "images/";
+  $target_file = $target_dir . basename($_FILES["fileToUpload"]["name"]);
+
+  $imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
+  // Check if image file is a actual image or fake image
+  if(isset($_POST["fileToUpload"])) {
+      $check = getimagesize($_FILES["fileToUpload"]["tmp_name"]);
+      if($check !== false) {
+          $globals['uploadOk'] = 1;
+      } else {
+          $globals['uploadOk'] = 0;
+      }
+  }
+  // Check if file already exists
+  // if (file_exists($target_file)) {
+  //     echo "Sorry, file already exists.";
+  //     $uploadOk = 0;
+  // }
+
+  //Set New File Name
+  $timestamp = time();
+  $newfilename = $timestamp.(rand(10,99)).$_POST["USERNAME_CUS"].".".$imageFileType;
+
+  // Check file size
+  if ($_FILES["fileToUpload"]["size"] > 500000) {
+
+    echo '<script>
+    alert("Lỗi ! File quá lớn. Dung lượng tệp tin phải nhỏ hơn 500kb")
+    </script>';
+    $globals['uploadOk'] = 0;
+  }
+  // Allow certain file formats
+  if($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg"
+  && $imageFileType != "gif" ) {
+
+    echo '<script>
+    alert("Lỗi ! Không đúng định dạng tập tin ảnh")
+    </script>';
+      $globals['uploadOk'] = 0;
+  }
+  // Check if $uploadOk is set to 0 by an error
+  if ($globals['uploadOk'] == 0) {
+  // if everything is ok, try to upload file
+          return "";
+  } else {
+      if (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_dir . $newfilename)) {
+          return $newfilename;
+      } else {
+          return "";
+      }
+  }
+}
+
+//Truy van
+  // var_dump($_FILES["fileToUpload"]["name"]);
+if(isset($_POST["USERNAME_CUS"]) &&
+	isset($_POST["PASSWORD_CUS"]) &&
+	isset($_POST["FULLNAME_CUS"]) &&
+	isset($_POST["SEX"]) &&
+	isset($_POST["BIRTHDAY"])&&
+	isset($_POST["TEL_CUS"])&&
+	isset($_POST["ADDRESS_CUS"])) {
 
 
+
+	$USERNAME_CUS = $_POST["USERNAME_CUS"];
+	$PASSWORD_CUS = $_POST["PASSWORD_CUS"];
+	$FULLNAME_CUS = $_POST["FULLNAME_CUS"];
+	$SEX = $_POST["SEX"];
+	$BIRTHDAY = $_POST["BIRTHDAY"];
+	$IMG_URL_CUS = uploadImg();
+	$TEL_CUS = $_POST["TEL_CUS"];
+	$ADDRESS_CUS = $_POST["ADDRESS_CUS"];
+
+  echo $IMG_URL_CUS;
+  if (!$IMG_URL_CUS==""){
+    $truyvan = "INSERT INTO CUSTOMER VALUES ('".$USERNAME_CUS."','".$PASSWORD_CUS."','".$FULLNAME_CUS."','".$SEX."','".$BIRTHDAY."','".$IMG_URL_CUS."','".$TEL_CUS."','".$ADDRESS_CUS."') ";
+
+    if(mysqli_query($conn,$truyvan)){
+    	header("Location: signup_viewSuccess.php");
+
+    }else{
+      echo '<script>
+      alert("Lỗi ! Tên dăng nhập đã tồn tại")
+      </script>';
+    }
+  }
+
+
+}
 
 ?>
+
+
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -99,7 +194,14 @@ include_once("config.php");
                     <div class="card card-signup">
                         <h2 class="card-title text-center">Đăng ký</h2>
                         <div class="card-body">
-                            <form class="form" enctype="multipart/form-data" method="POST" action="signup.action.php">
+                          <?php
+                          if ($uploadOk==0) {
+                            echo "Lỗi Upload hình ảnh ! Lưu ý: Tệp tin hình ảnh phải dưới 500Kb";
+                          }
+                           ?>
+                          <p class="text-center" id = "showError" style="color:red;"></p>
+                          <!-- From Nhập thông tin -->
+                            <form name="formInfo" enctype="multipart/form-data" action="" onsubmit="return validateForm()" method="POST">
                                 <div class="row">
                                     <div class="col-md-5 ml-auto">
                                         <div class="text-left">
@@ -110,7 +212,8 @@ include_once("config.php");
                                                 <span class="input-group-addon">
                                                     <i class="material-icons">face</i>
                                                 </span>
-                                                <input type="text" class="form-control" placeholder="Tên tài khoản" name="USERNAME_CUS">
+                                                <input type="text" class="form-control" placeholder="Tên tài khoản"
+                                                name="USERNAME_CUS" onfocusout="checkUsername()">
                                             </div>
                                         </div>
                                         <div class="form-group has-success">
@@ -163,7 +266,7 @@ include_once("config.php");
                                                     <i class="material-icons">portrait</i>
                                                 </span>
                                                 <input type="text" class="form-control inputFileVisible" placeholder="Ảnh đại diện..." name="IMG_URL_CUS">
-                                                <input type="file" class="inputFileHidden">
+                                                <input type="file" class="inputFileHidden" name="fileToUpload" id="fileToUpload">
                                             </div>
                                         </div>
                                         <div class="form-group has-success">
@@ -185,9 +288,9 @@ include_once("config.php");
 
                                         <div class="form-check">
                                             <label class="form-check-label">
-                                                <input class="form-check-input" type="checkbox" value="">
+                                                <input class="form-check-input" type="checkbox" value="check" name="checkBox">
                                                 <span class="form-check-sign">
-                                                    <span class="check"></span>
+                                                    <span class="check"> </span>
                                                 </span>
                                                 Tôi xin xác nhận thông tin trên
                                                 <font style="color: #4CAF50">hoàn toàn Chính chủ.</font>
@@ -263,7 +366,129 @@ include_once("config.php");
     <!-- Material Kit Core initialisations of plugins and Bootstrap Material Design Library -->
     <script src="assets/js/material-kit.js?v=2.0.0"></script>
     <!-- javascript for init -->
+    <!-- JavaScript -->
     <script>
+
+    function validateForm() {
+        var userName = document.forms["formInfo"]["USERNAME_CUS"].value;
+        var pass = document.forms["formInfo"]["PASSWORD_CUS"].value;
+        var fullname = document.forms["formInfo"]["FULLNAME_CUS"].value;
+        var sex = document.forms["formInfo"]["SEX"].value;
+        var birthday = document.forms["formInfo"]["BIRTHDAY"].value;
+        var file = document.forms["formInfo"]["fileToUpload"].value;
+        var tel = document.forms["formInfo"]["TEL_CUS"].value;
+        var address = document.forms["formInfo"]["ADDRESS_CUS"].value;
+        var check = document.forms["formInfo"]["checkBox"].checked;
+
+
+
+
+
+
+        //Kiểm tra tên đăng nhập và mật khảu
+        switch ("") {
+          case userName:
+            document.getElementById("showError").innerHTML = "Bạn chưa nhập tên đăng nhập!";
+            alert("Bạn chưa nhập tên đăng nhập!");
+            return false;
+            break;
+          case pass:
+            document.getElementById("showError").innerHTML = "Bạn chưa nhập mật khẩu!";
+            alert("Bạn chưa nhập mật khẩu!");
+            return false;
+            break;
+          }
+
+          //Kiểm tra mật khẩu
+          if (pass.length<5) {
+            document.getElementById("showError").innerHTML = "Mật khẩu phải dài từ 5 ký tự";
+            alert("Mật khẩu phải dài từ 5 ký tự");
+            return false;
+          }
+
+          //Kiểm tra gioi tinh
+          if (sex=="Giới tính"){
+            document.getElementById("showError").innerHTML = "Bạn chưa chọn giới tính";
+            alert("Bạn chưa chọn giới tính");
+            return false;
+          }
+
+
+        //Kiem tra các trường còn lại
+        switch ("") {
+          case fullname:
+            document.getElementById("showError").innerHTML = "Bạn chưa nhập họ tên!";
+            alert("Bạn chưa nhập họ tên!");
+            return false;
+            break;
+          case birthday:
+            document.getElementById("showError").innerHTML = "Bạn chưa chọn ngày sinh!";
+            alert("Bạn chưa chọn ngày sinh!");
+            return false;
+            break;
+          case file:
+            document.getElementById("showError").innerHTML = "Bạn chưa chọn ảnh đại diện!";
+            alert("Bạn chưa chọn ảnh đại diện!");
+            return false;
+            break;
+          case tel:
+            document.getElementById("showError").innerHTML = "Bạn chưa nhập số điện thoại!";
+            alert("Bạn chưa nhập số điện thoại!");
+            return false;
+            break;
+          case address:
+            document.getElementById("showError").innerHTML = "Bạn chưa nhập địa chỉ!";
+            alert("Bạn chưa nhập địa chỉ!");
+            return false;
+            break;
+        }
+
+        //Kiểm tra Ngày sinh hợp lệ
+        function isValidDate(s) {
+          var bits = s.split('-');
+          var d = new Date(bits[0], bits[1] - 1, bits[2]);
+          return d && (d.getMonth() + 1) == bits[1];
+        }
+        if (!isValidDate(birthday)) {
+          document.getElementById("showError").innerHTML = "Ngày nhập vào chưa hợp lệ";
+          alert("Ngày nhập vào chưa hợp lệ");
+        }
+
+        //Kiểm tra đã tick check chưa
+        if (!check) {
+          document.getElementById("showError").innerHTML = "Bạn chưa xác nhận thông tin là sự thật";
+          alert("Bạn chưa xác nhận thông tin là sự thật");
+          return false;
+        }
+
+
+
+
+
+    }
+
+
+
+    function checkUsername(){
+      //Kiểm tra USer name có tồn tại hay không
+      var userName = document.forms["formInfo"]["USERNAME_CUS"].value;
+      xmlhttp = new XMLHttpRequest();
+      xmlhttp.onreadystatechange = function() {
+          if (this.readyState == 4 && this.status == 200) {
+            console.log(this.responseText);
+            if (this.responseText == "true") {
+              document.getElementById("showError").innerHTML = "Tên đăng nhập đã có người sử dụng";
+              alert("Tên đăng nhập đã có người sử dụng");
+            }else {
+              document.getElementById("showError").innerHTML = "";
+            }
+          }
+      };
+      xmlhttp.open("POST", "android/signin_checkUserName.php" , true);
+      xmlhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+      xmlhttp.send('USERNAME_CUS='+userName);
+    }
+
         $('.datetimepicker').datetimepicker({
             format: 'DD/MM/YYYY',
             icons: {
@@ -279,6 +504,7 @@ include_once("config.php");
             }
         });
     </script>
+
 </body>
 
 </html>

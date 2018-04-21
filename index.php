@@ -316,42 +316,14 @@ $rs_banner = mysqli_query($conn,$sql_banner) or die(mysqli_error());
                 </div>
                 <h2 class="section-title" id="saleproduct">Nông sản giảm giá</h2>
                 <!-- Create a row -->
-                <div class="row">
-                    <!-- Page layout = 12 => 3 col (Each col = 4) -->
-                    <?php
-                    while ($row = mysqli_fetch_array($rs_km)) {
-                    echo "<div class='col-md-4'>"
-                    ."    <form id='itemform' method='POST' action='product-detail.php' >"
-                        // Create a transparent button that will make a whole item card clickable
-                    ."    <button type='submit' name='getidagri'value='".$row["ID_AGRI"]."' style='height:410px; background-color:transparent; border-color:transparent; cursor: pointer;'>"
-                    ."    <div class='card card-product'>"
-                    ."        <div class='card-header card-header-image'>"
-                    ."                <img alt='' src='assets/img_agric/".$row['IMG_URL_AGRI']."'>"
-                    ."            <div class='colored-shadow' style='background-image: url('assets/img_agric/".$row['IMG_URL_AGRI']."'); opacity: 1;'></div>"
-                    ."        </div>"
-                    ."        <div class='card-body text-center'>"
-                    ."            <h4 class='card-title'>"
-                    ."                <a href='product-detail.php'>".$row['NAME_AGRI']."</a>"
-                    ."            </h4>"
-                    ."            <p class='card-description'>".$row['DETAIL_AGRI']."</p>"
-                    ."        </div>"
-                    ."        <div class='card-footer'>"
-                    ."            <div class='price-container'>"
-                    ."                <span class='price price-old'> 25.000 VNĐ/KG</span>"
-                    ."                <span class='price price-new'>&nbsp;".$row['PRICE_AGRI']." VNĐ/KG</span>"
-                    ."            </div>"
-                    ."        </div>"
-                    ."    </div>"
-                    ."    </button>"
-                    ."    </form>"
-                    ."</div>";
-                    }
-                    ?>
+<!-- NÔNG SẢN GIẢM GIÁ -->
+                <div class="row" id="nsGiamGia">
 
-                    <div class="ml-auto mr-auto">
-                        <a href="filter-product.php" class="btn btn-success btn-round" role="button">Xem thêm...</a>
-                    </div>
+
+
+
                 </div>
+
             </div>
         </div>
 
@@ -530,8 +502,39 @@ $rs_banner = mysqli_query($conn,$sql_banner) or die(mysqli_error());
     <!-- Material Kit Core initialisations of plugins and Bootstrap Material Design Library -->
     <script src="assets/js/material-kit.js?v=2.0.0"></script>
 
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
     <!-- Slider JS -->
     <script>
+
+    function showAgriSale() {
+      var xmlhttp = new XMLHttpRequest();
+      xmlhttp.onreadystatechange = function() {
+          if (this.readyState == 4 && this.status == 200) {
+
+              $("#div_btnmore").remove();
+              document.getElementById("nsGiamGia").innerHTML += this.responseText;
+
+          }
+      };
+      xmlhttp.open("GET", "view_agriSale.php", true);
+      xmlhttp.send();
+    }
+
+    // Lấy dữ liệu
+    var xmlhttp1 = new XMLHttpRequest();
+    xmlhttp1.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+            document.getElementById("nsGiamGia").innerHTML = this.responseText;
+        }
+    };
+    xmlhttp1.open("POST", "view_agriSale.php", true);
+    xmlhttp1.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+    xmlhttp1.send("MAIN="+0);
+
+
+
+
         $(document).ready(function () {
 
             var slider2 = document.getElementById('sliderDouble');

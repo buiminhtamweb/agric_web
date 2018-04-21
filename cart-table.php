@@ -1,12 +1,97 @@
 <?php
-#Include connect setting to DB
+session_start();
+
 include_once("config.php");
 
-#Select entry from DB
-$sql = "SELECT * FROM agricultural,kinds WHERE ID_AGRI='".$_POST['getidagri']."' and agricultural.ID_KIND = kinds.ID_KIND Order by ID_AGRI DESC";
-$rs = mysqli_query($conn,$sql) or die(mysqlii_error());
+//Kiem tra va tao ID_ORDER moi
+$timestamp = time();
+$_SESSION['ID_ORDER'] = $timestamp.(rand(10,99));
+
+//Xóa nông sản trong SESSION
+if (isset($_POST['Posi_Delete'])) {
+  unset($_SESSION['AGRI_ORDER'][$_POST['Posi_Delete']]);
+}
+
+//Đặt hàng
+if (isset($_POST['DAT_HANG'])){ //Kiểm tra tao tác đặt hàng
+  if (!isset($_SESSION['USERNAME_CUS'])){ //Kiểm tra dăng nhâp
+
+    header('Location: login.php');
+  }else{
+    $tongDH = $_POST['DAT_HANG'];
+    try {
+    	$truyvan = "INSERT INTO `ORDERS`(`ID_ORDER`, `USERNAME_CUS`, `TOTAL_ORDER`) VALUES ( '".$_SESSION['ID_ORDER']. "','".
+    																								$_SESSION['USERNAME_CUS']. "',".
+    																								$tongDH.")";
+
+    	//Thêm hóa đơn đặt hàng mới
+    	mysqli_query($conn,$truyvan);
+
+    	//Duyệt qua từng nông sản để thêm vào CSQL
+    	foreach ($_SESSION['AGRI_ORDER'] as $agriOrder ) {
+      		$truyvan2 = "INSERT INTO `AGRI_ORDER`(`ID_ORDER`,
+            `ID_AGRI`, `NUM_OF_AGRI`, `CURRENT_PRICE`) VALUES ( '".$_SESSION['ID_ORDER']. "',".
+      																												$agriOrder["ID_AGRI"]. ",".
+      																												$agriOrder["NUM_OF_AGRI"]. ",".
+      																												$agriOrder["CURRENT_PRICE"].")";
+
+      		//Thêm nông sản vào đơn đặt hàng
+      		mysqli_query($conn,$truyvan2);
+
+      		//Tìm Giá cũ trong CSQL để cập nhật lại số lượng trên hệ thống
+      		$truyvan3 = "SELECT AMOUNT_AGRI FROM AGRICULTURAL WHERE ID_AGRI = " . $agriOrder["ID_AGRI"];
+      		$query = mysqli_query($conn,$truyvan3);
+      		$old_AMOUNT_AGRI = mysqli_fetch_array($query);
+
+      		//Cập nhật lại số lượng trên hệ thống
+      		$truyvan4 = "UPDATE AGRICULTURAL SET AMOUNT_AGRI = ".($old_AMOUNT_AGRI["AMOUNT_AGRI"] - $agriOrder["NUM_OF_AGRI"]) ." WHERE ID_AGRI = " . $agriOrder["ID_AGRI"];
+
+      		mysqli_query($conn,$truyvan4);
+      		echo "true";
+    	   }
+      }catch (Exception $e) {
+      	echo "false";
+      }
+    }
+
+
+}
+
+// $_SESSION['USERNAME_CUS'] ;
+// $_SESSION['TOTAL_ORDER'];
+// $_SESSION['AGRI_ORDER'];
+// if (isset($_SESSION['AGRI_ORDER'])) {
+//   for ($i=0; $i < count($_SESSION['AGRI_ORDER']); $i++) {
+//     $agri = $_SESSION['AGRI_ORDER'][$i];
+//     $sql = "SELECT * FROM agricultural,kinds WHERE ID_AGRI='".$agri['ID_AGRI']."' and agricultural.ID_KIND = kinds.ID_KIND Order by ID_AGRI DESC";
+//     $rs = mysqli_query($conn,$sql) or die(mysqlii_error());
+//   }
+// }
+
+
+
+// $sql = "SELECT * FROM agricultural,kinds WHERE ID_AGRI='".$_POST['getidagri']."' and agricultural.ID_KIND = kinds.ID_KIND Order by ID_AGRI DESC";
+// $rs = mysqli_query($conn,$sql) or die(mysqlii_error());
 #Call data entry that've selected above
 ?>
+
+<script>
+function viewProductDe(idAgric) {
+    if (str.length == 0) {
+        document.getElementById("txtHint").innerHTML = "";
+        return;
+    } else {
+        var xmlhttp = new XMLHttpRequest();
+        xmlhttp.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                document.getElementById("txtHint").innerHTML = this.responseText;
+            }
+        };
+        xmlhttp.open("POST", "gethint.php?q=" + str, true);
+        xmlhttp.send();
+    }
+}
+</script>
 
 <!doctype html>
 <html lang="en">
@@ -217,57 +302,96 @@ $rs = mysqli_query($conn,$sql) or die(mysqlii_error());
                                 </thead>
                                 <tbody>
 
-                                <!-- PHP get ID_agri -->
+                                <!-- Show ra danh sach cac nong san da dat hang -->
                                 <?php
-                                while ($row = mysqli_fetch_array($rs)) {
-                                $inspector[] = $row['ID_AGRI'];
-                                echo "    <tr>"
-                                ."        <td>"
-                                ."            <div class='img-container'>"
-                                ."                <img src='assets/img_agric/".$row['IMG_URL_AGRI']."'>"
-                                ."            </div>"
-                                ."        </td>"
-                                ."        <td class='td-name'>"
-                                ."            <a href='product-detail.php'>"
-                                ."                <font color='#4caf50'>".$row['NAME_AGRI']."</font>"
-                                ."            </a>"
-                                ."            <br>"
-                                ."            <small>Loại: ".$row['NAME_KIND']."</small>"
-                                ."        </td>"
-                                ."        <td class='td-number text-right'>"
-                                .            $row['PRICE_AGRI']
-                                ."            <small> VNĐ</small>"
-                                ."        </td>"
-                                ."        <td class='td-number text-center'>"
-                                ."            <input type='text' name='NUM_OF_AGRI' id='TextBox' value='".$row['AMOUNT_AGRI']."' style='width:75px;'/>"
-                                ."            <div>"
-                                ."              <button id='RemoveButton' type='button' rel='tooltip' class='btn btn-danger btn-fab btn-fab-mini btn-round'>"
-                                ."                  <i class='material-icons'>remove</i>"
-                                ."              </button> "
-                                ."              <button id='AddButton' type='button' rel='tooltip' class='btn btn-success btn-fab btn-fab-mini btn-round'>"
-                                ."                  <i class='material-icons'>add</i>"
-                                ."              </button>"
-                                ."            </div>"
-                                ."        </td>"
-                                ."        <td>"
-                                ."            <div class='form-group' style='width: 30px;'>"
-                                ."                <select class='form-control' id='weightSelect'>"
-                                ."                    <option>g</option>"
-                                ."                    <option>kg</option>"
-                                ."                </select>"
-                                ."            </div>"
-                                ."        </td>"
-                                ."        <td class='td-number text-right'>"
-                                ."            20.000"
-                                ."            <small> VNĐ</small>"
-                                ."        </td>"
-                                ."        <td class='td-actions'>"
-                                ."            <button type='button' rel='tooltip' data-placement='right' title='Xoá' class='btn btn-link'>"
-                                ."                <i class='material-icons'>close</i>"
-                                ."            </button>"
-                                ."        </td>"
-                                ."    </tr>";
+                                $tongDonHang = 0.0;
+
+                                if (isset($_SESSION['AGRI_ORDER']) && !count($_SESSION['AGRI_ORDER'])==0) {
+                                  foreach ($_SESSION['AGRI_ORDER'] as $position => $agri) {
+                                    $sql = "SELECT * FROM agricultural,kinds WHERE ID_AGRI='".$agri['ID_AGRI']."' and agricultural.ID_KIND = kinds.ID_KIND Order by ID_AGRI DESC";
+                                    $rs = mysqli_query($conn,$sql) or die(mysqlii_error());
+
+
+                                    while ($row = mysqli_fetch_array($rs)) {
+                                      $giaHienTai = $agri['CURRENT_PRICE'];
+                                      //Show thông tin
+                                      if ($agri['NUM_OF_AGRI']>1000){
+                                        $soLuongMua = $agri['NUM_OF_AGRI']/1000;
+                                        $donVi = "Kg";
+                                      }else{
+                                        $soLuongMua = $agri['NUM_OF_AGRI'];
+                                        $donVi = "g";
+                                      }
+
+
+                                      //Tính giá
+                                      $tongGia = ($agri['NUM_OF_AGRI']*$agri['CURRENT_PRICE'])/1000;
+                                      $tongDonHang += $tongGia;
+                                    $inspector[] = $row['ID_AGRI'];
+                                    echo "    <tr>"
+                                    .'        <form  id="formname'.$agri['ID_AGRI'].'" action="product-detail.php" method="post" >'
+                                    ."        <td>"
+                                    ."            <div class='img-container'>"
+                                    ."                <img src='assets/img_agric/".$row['IMG_URL_AGRI']."'>"
+                                    ."            </div>"
+                                    ."        </td>"
+                                    ."        <td class='td-name'>"
+
+                                    .'            <a href="javascript:;" onclick="'."document.getElementById('formname".$agri['ID_AGRI']."')".'.submit();">'
+                                    ."                <font color='#4caf50'>".$row['NAME_AGRI']."</font>"
+                                    ."            </a>"
+                                    .'        <input type="hidden" name="getidagri" value="'.$agri['ID_AGRI'].'" />'
+
+                                    ."            <br>"
+                                    ."            <small>Loại: ".$row['NAME_KIND']."</small>"
+                                    ."        </td>"
+                                    .'        </form>'
+                                    ."        <td class='td-number text-right'>"
+                                    .            $giaHienTai
+                                    ."            <small> VNĐ</small>"
+                                    ."        </td>"
+                                    ."        <td class='td-number text-center'>"
+                                    // ."            <input type='text' name='NUM_OF_AGRI' id='TextBox' value='"
+                                    .             $soLuongMua
+                                    // .             "' style='width:75px;'/>"
+                                    // ."            <div>"
+                                    // ."              <button id='RemoveButton' type='button' rel='tooltip' class='btn btn-danger btn-fab btn-fab-mini btn-round'>"
+                                    // ."                  <i class='material-icons'>remove</i>"
+                                    // ."              </button> "
+                                    // ."              <button id='AddButton' type='button' rel='tooltip' class='btn btn-success btn-fab btn-fab-mini btn-round'>"
+                                    // ."                  <i class='material-icons'>add</i>"
+                                    // ."              </button>"
+                                    // ."            </div>"
+                                    ."        </td>"
+                                    ."        <td>"
+                                    ."            <div class='form-group' style='width: 30px;'>"
+                                    // ."                <select class='form-control' id='weightSelect'>"
+                                    // ."                    <option>g</option>"
+                                    // ."                    <option>kg</option>"
+                                    // ."                </select>"
+                                    .             $donVi
+                                    ."            </div>"
+                                    ."        </td>"
+                                    ."        <td class='td-number text-right' id = 'tong'>"
+                                    .             $tongGia
+                                    ."            <small> VNĐ</small>"
+                                    ."        </td>"
+                                    ."        <td class='td-actions'>"
+                                    .'        <form  action="cart-table.php" method="post" >'
+                                    ."            <button type='submit' rel='tooltip' data-placement='right' title='Xoá' class='btn btn-link' name='Posi_Delete' value= '".$position."' >"
+                                    ."                <i class='material-icons'>close</i>"
+                                    ."            </button>"
+                                    .'        </form>'
+                                    ."        </td>"
+                                    ."    </tr>";
+
+                                    }
+                                  }
+
+                                }else {
+                                  echo "Giỏ hàng trống !";
                                 }
+
                                 ?>
                                     <tr>
                                         <td colspan="3">
@@ -276,13 +400,18 @@ $rs = mysqli_query($conn,$sql) or die(mysqlii_error());
                                             Tổng cộng
                                         </td>
                                         <td class="td-price text-center">
-                                            60.000
+                                          <?php
+                                          echo "$tongDonHang";
+                                           ?>
                                             <small> VNĐ</small>
                                         </td>
                                         <td colspan="3" class="text-right">
-                                            <button type="submit" class="btn btn-success btn-round">ĐẶT HÀNG
+                                          <form  action="cart-table.php" method="post" >
+                                            <button type="submit" class="btn btn-success btn-round"
+                                            name='DAT_HANG' value=<?php echo "$tongDonHang"; ?> >ĐẶT HÀNG
                                                 <i class="material-icons">keyboard_arrow_right</i>
                                             </button>
+                                          </form>
                                         </td>
                                     </tr>
                                 </tbody>
@@ -571,20 +700,32 @@ $rs = mysqli_query($conn,$sql) or die(mysqlii_error());
     <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=YOUR_KEY_HERE"></script>
 
     <!-- Add/Remove button -->
-    <script>
+    <!-- <script>
         $(document).ready(function(){
             $('#AddButton').click( function() {
                 var counter = $('#TextBox').val();
                 counter++ ;
                 $('#TextBox').val(counter);
+
+                var giaHienTai = $('#TextBox').val();
+
+
             });
             $('#RemoveButton').click( function() {
                 var counter = $('#TextBox').val();
-                    counter-- ;
-                    $('#TextBox').val(counter);
+                counter-- ;
+                if (counter < 0 ) {
+                  counter = 0;
+                }
+                $('#TextBox').val(counter);
+
             });
+
+
         });
-    </script>
+
+
+    </script> -->
 </body>
 
 </html>

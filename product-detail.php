@@ -1,4 +1,5 @@
 <?php
+session_start();
 #Include connect setting to DB
 include_once("config.php");
 
@@ -9,8 +10,8 @@ $rs = mysqli_query($conn,$sql) or die(mysqlii_error());
 $row = mysqli_fetch_assoc($rs);
 
 #Select name kind entry from DB
-
-$sql_kind = "SELECT * FROM agricultural,kinds WHERE ID_AGRI='".$_POST['getidagri']."' and agricultural.ID_KIND = kinds.ID_KIND";
+$idAgri = $_POST['getidagri'];
+$sql_kind = "SELECT * FROM agricultural,kinds WHERE ID_AGRI='".$idAgri."' and agricultural.ID_KIND = kinds.ID_KIND";
 $rs_kind = mysqli_query($conn,$sql_kind) or die(mysqlii_error());
 #Call data entry that've selected above
 $row_kind = mysqli_fetch_assoc($rs_kind);
@@ -20,19 +21,62 @@ $row_kind = mysqli_fetch_assoc($rs_kind);
 $sql_lq = "SELECT * FROM agricultural WHERE ID_KIND='".$row_kind['ID_KIND']."'  LIMIT 4";
 $rs_lq = mysqli_query($conn,$sql_lq) or die(mysqli_error());
 
+#Banner
+$sql_banner = "SELECT BANNER FROM BANNER";
+$rs_banner = mysqli_query($conn,$sql_banner) or die(mysqli_error());
+
 ?>
 
 <?php
-#Only run PHP SQL Insert if the Submit button was clicked
-if (isset($_POST['submit'])){
+//Lấy thông tin san pham
+if (isset($_POST['soluong'])&&$_POST['soluong']!=""){
     #SQL Insert
-    $sql_is_order = "insert into AGRI_ORDER values('"
-    . $_POST["ID_ORDER"] . "','"
-    . $_POST["ID_AGRI"] . "','"
-    . $_POST["NUM_OF_AGRI"] . "',"
-    . $_POST["CURRENT_PRICE"] . ")";
+$soLuong = $_POST['soluong'];
+$id_NS = $_POST['getidagri'];
+$giaHienTai = $row_kind['PRICE_AGRI'];
 
-    $rs_is = mysqli_query($conn,$sql_is) or die(mysqli_error());
+//Kiểm tra nông sản trong CSDL
+$sql_amountAgric = "SELECT AMOUNT_AGRI FROM AGRICULTURAL WHERE ID_AGRI = '".$id_NS."' LIMIT 1";
+$ketqua = mysqli_query($conn,$sql_amountAgric);
+while ($row = mysqli_fetch_array($ketqua)) {
+	$amountAgric = $row['AMOUNT_AGRI'];
+};
+
+if ($soLuong < $amountAgric) { //Nếu số lượng mua nhỏ hơn số lượng tồn kho thì cho phép thêm vào giỏ hàng
+  $arrAgriOrder = array('ID_AGRI' => $id_NS,
+          'NUM_OF_AGRI' => $soLuong,
+          'CURRENT_PRICE' => $giaHienTai);
+
+  //Them nong san vao Gio hang
+  if (!isset($_SESSION['AGRI_ORDER'])) {
+    $_SESSION['AGRI_ORDER'] = array();
+  }
+
+  //Kiểm tra nông sản đã có trong Giỏ hảng chưa
+  foreach ($_SESSION['AGRI_ORDER'] as $key => $value ){
+    if($value['ID_AGRI']==$id_NS){
+      $keyDelete = $key ;
+    }
+  }
+  if (!$keyDelete==false) unset($_SESSION['AGRI_ORDER'][$key]);
+
+  array_push($_SESSION['AGRI_ORDER'], $arrAgriOrder);
+  header('Location: cart-table.php');
+}else {
+  echo '<script>
+  alert("Trong kho không đủ số lượng");
+  document.getElementById("showErrorSL").innerHTML ="Trong kho không đủ số lượng";
+  </script>';
+}
+
+
+
+    // $sql_is_order = "insert into AGRI_ORDER values('"
+    // . $_POST["ID_ORDER"] . "','"
+    // . $_POST["ID_AGRI"] . "','"
+    // . $_POST["NUM_OF_AGRI"] . "',"
+    // . $_POST["CURRENT_PRICE"] . ")";
+    // $rs_is = mysqli_query($conn,$sql_is) or die(mysqli_error());
 }
 
 ?>
@@ -83,8 +127,6 @@ if (isset($_POST['submit'])){
                 <span class="navbar-toggler-icon"></span>
             </button>
 
-
-
             <div class="collapse navbar-collapse nav justify-content-end" id="navbarsCollapse">
                 <!-- Leftside -->
                 <!-- <ul class="navbar-nav mr-auto">
@@ -112,24 +154,24 @@ if (isset($_POST['submit'])){
                             Giỏ hàng
                         </a>
                     </li>
-                    
-                     <?php 
+
+                     <?php
                     //Kiểm tra nếu coockie đã đăng nhập
                     if(isset($_COOKIE["USERNAME_CUS"])) {
                         $tendangnhap = $_COOKIE["USERNAME_CUS"];
 
                         $sql = "SELECT * FROM CUSTOMER WHERE USERNAME_CUS = '". $tendangnhap. "' LIMIT 1";
                         $rs_user = mysqli_query($conn,$sql) or die(mysqlii_error());
-                        $row = mysqli_fetch_array($rs_user);
-                        $fullname = $row['FULLNAME_CUS'];
-                        $url_img_avata = $row['IMG_URL_CUS'];
+                        $row_user = mysqli_fetch_array($rs_user);
+                        $fullname = $row_user['FULLNAME_CUS'];
+                        $url_img_avata = $row_user['IMG_URL_CUS'];
 
 
 
-                    echo 'Xin chào '.$fullname . ' ! '; 
+                    echo 'Xin chào '.$fullname . ' ! ';
 
 
-                     echo '<a href="#" class="pull-left"><img src="images/'.$url_img_avata.'" height="36" width="36" ></a>'; 
+                     echo '<a href="#" class="pull-left"><img src="images/'.$url_img_avata.'" height="36" width="36" ></a>';
 
 
                     echo '<li class="nav-item">
@@ -164,7 +206,7 @@ if (isset($_POST['submit'])){
             </div>
         </div>
     </nav>
-    
+
     <!-- Carousel Slider -->
     <div id="carouselIndicators" class="carousel slide" data-ride="carousel" data-pause="hover">
         <ol class="carousel-indicators">
@@ -174,7 +216,22 @@ if (isset($_POST['submit'])){
         </ol>
         <div class="carousel-inner">
             <!-- Auto load Slide 1 *acitve -->
-            <div class="carousel-item active">
+
+            <?php
+            $i = 1;
+            while ($row = mysqli_fetch_array($rs_banner)) {
+              echo '<div class="carousel-item ';
+            if ($i==1) {
+              echo "active";
+              $i++;
+            }
+            echo '">
+                <img class="d-block w-100" src="assets/img_banner/'.$row["BANNER"].'" alt="First slide" >
+
+            </div>';
+            }
+            ?>
+            <!-- <div class="carousel-item active">
                 <img class="d-block w-100" src="assets/img/slider-img-1.jpg" alt="First slide">
                 <div class="carousel-caption d-none d-md-block">
                     <h1>Khuyến mãi</h1>
@@ -194,7 +251,7 @@ if (isset($_POST['submit'])){
                     <h1>Khuyến mãi</h1>
                     <h3>Giảm 20% đối với các loại Gạo</h3>
                 </div>
-            </div>
+            </div> -->
         </div>
         <a class="carousel-control-prev" href="#carouselIndicators" role="button" data-slide="prev">
             <span class="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -205,9 +262,6 @@ if (isset($_POST['submit'])){
             <span class="sr-only">Next</span>
         </a>
     </div>
-    <br>
-    <br>
-    <br>
     <br>
     <br>
     <br>
@@ -268,8 +322,9 @@ if (isset($_POST['submit'])){
                         </ul>
                     </div>
                     <div class="col-md-6 col-sm-6">
-                        <form method='POST' action='cart-table.php'>
+
                         <!-- PHP Get data from id_agri -->
+
                         <?php
                         echo "<h2 class='title'>" .$row_kind['NAME_AGRI']. "</h2>"
                         ."<h3 class='main-price'>".$row_kind['PRICE_AGRI']. "VNĐ/KG</h3>"
@@ -305,20 +360,20 @@ if (isset($_POST['submit'])){
                         ."        </div>"
                         ."    </div>"
                         ."</div>"
-                        ."<br>"
-                        ."<form>"
-                        ."    <div class='form-group label-floating has-success'>"
-                        ."        <label class='control-label'>Số lượng</label>"
-                        ."        <input type='text' value='".$row['NUM_OF_AGRI']."' class='form-control' />"
-                        ."    </div>"
-                        ."    <div class='row pull-center'>"
-                        ."        <button type='submit' class='btn btn-success btn-round' name='getidagri'value='".$row_kind["ID_AGRI"]."'>Thêm vào giỏ &#xA0;"
-                        ."            <i class='material-icons'>shopping_cart</i>"
-                        ."        </button>"
-                        ."    </div>"
-                        ."</form>";
-                        ?>
-                        
+                        ."<br>";?>
+                        <form action='' name='formDetail' onsubmit='return checkSoLuongNS()' method='POST' >
+                            <div name='idAgric' id="idAgric" value = '<?php echo $idAgri; ?>'></div>
+                            <div class='form-group label-floating has-success'>
+                                <label class='control-label'>Số lượng</label>
+                                <div id="showErrorSL"></div>
+                                <input type='text' name='soluong' id="soluong" class='form-control' />
+                                (Đơn vị tính: Gam)
+                            </div>
+                            <div class='row pull-center'>
+                                <button type='submit' class='btn btn-success btn-round' name='getidagri'value='<?php echo $row_kind["ID_AGRI"]; ?>."'>Thêm vào giỏ &#xA0;"
+                                    <i class='material-icons'>shopping_cart</i>
+                                </button>
+                            </div>
                         </form>
                     </div>
                 </div>
@@ -518,29 +573,42 @@ if (isset($_POST['submit'])){
     <!--  Google Maps Plugin    -->
     <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=YOUR_KEY_HERE"></script>
     <script>
-        $(document).ready(function () {
-            $("#flexiselDemo1").flexisel({
-                visibleItems: 4,
-                itemsToScroll: 1,
-                animationSpeed: 400,
-                enableResponsiveBreakpoints: true,
-                responsiveBreakpoints: {
-                    portrait: {
-                        changePoint: 480,
-                        visibleItems: 3
-                    },
-                    landscape: {
-                        changePoint: 640,
-                        visibleItems: 3
-                    },
-                    tablet: {
-                        changePoint: 768,
-                        visibleItems: 3
+
+      function checkSoLuongNS(){
+        var idAgri = document.getElementById("idAgric").value;
+        var soLuong = document.getElementById("soluong").value;
+
+        if (soLuong == "") {
+          alert("Bạn chưa nhập số lượng mua");
+          return false;
+
+        }
+      }
+
+
+      $(document).ready(function () {
+          $("#flexiselDemo1").flexisel({
+              visibleItems: 4,
+              itemsToScroll: 1,
+              animationSpeed: 400,
+              enableResponsiveBreakpoints: true,
+              responsiveBreakpoints: {
+                  portrait: {
+                      changePoint: 480,
+                      visibleItems: 3
+                  },
+                  landscape: {
+                      changePoint: 640,
+                      visibleItems: 3
+                  },
+                  tablet: {
+                      changePoint: 768,
+                      visibleItems: 3
                     }
-                }
-            });
-        });
-    </script>
+              }
+          });
+      });
+  </script>
 </body>
 
 </html>

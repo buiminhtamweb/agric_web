@@ -2,18 +2,6 @@
 #Connect to MySQL
 include_once("config.php");
 
-$sql_dk = "insert into CUSTOMER values('"
-. $_POST["USERNAME_CUS"] . "','"
-. $_POST["PASSWORD_CUS"] . "','"
-. $_POST["FULLNAME_CUS"] . "','"
-. $_POST["SEX"] . "','"
-. $_POST["BIRTHDAY"] . "','"
-. $_POST["IMG_URL_CUS"] . "',"
-. $_POST["TEL_CUS"] . ",'"
-. $_POST["ADDRESS_CUS"] . "')";
-
-$rs_dk = mysqli_query($conn,$sql_dk) or die(mysqli_error());
-
 ?>
 
 <!DOCTYPE html>
@@ -112,7 +100,7 @@ $rs_dk = mysqli_query($conn,$sql_dk) or die(mysqli_error());
                                             <div class="card-body">
                                             <p class="description text-center">Bạn có thể đăng nhập ngay bây giờ để nhận được nhiều ưu đãi dành cho thành viên.</p>
                                                 <div class="text-center">
-                                                    <a href="login.html" class="btn btn-success btn-link btn-wd btn-lg">ĐĂNG NHẬP</a>
+                                                    <a href="login.php" class="btn btn-success btn-link btn-wd btn-lg">ĐĂNG NHẬP</a>
                                                 </div>
                                             </div>
                                     </div>
