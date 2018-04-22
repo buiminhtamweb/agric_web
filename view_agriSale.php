@@ -65,7 +65,7 @@ if($_SESSION["OFFSET"] < $countRow){
 	}
 	if ($countResult==3) {
 		echo '<div class="ml-auto mr-auto" id="div_btnmore">
-				<a class="btn btn-success btn-round text-center" role="button" onclick="showAgriSale()">Xem thêm...</a>
+				<button class="btn btn-success btn-round text-center" role="button" onclick="showAgriSale()">Xem thêm...</button>
 		</div>';
 	}else {
 	$_SESSION["OFFSET"] = 0;
