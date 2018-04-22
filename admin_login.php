@@ -1,6 +1,11 @@
 <?php
 session_start();
 
+if (isset($_COOKIE['ID_USER'])) {
+ header('Location: admin_control.php');
+}
+
+
 $isFail = false;
 
 if(!empty($_POST)) {

@@ -11,6 +11,7 @@ $row = mysqli_fetch_assoc($rs);
 
 #Select name kind entry from DB
 $idAgri = $_POST['getidagri'];
+echo "idAgri=___".$idAgri."_____";
 $sql_kind = "SELECT * FROM agricultural,kinds WHERE ID_AGRI='".$idAgri."' and agricultural.ID_KIND = kinds.ID_KIND";
 $rs_kind = mysqli_query($conn,$sql_kind) or die(mysqlii_error());
 #Call data entry that've selected above
@@ -32,18 +33,19 @@ $rs_banner = mysqli_query($conn,$sql_banner) or die(mysqli_error());
 if (isset($_POST['soluong'])&&$_POST['soluong']!=""){
     #SQL Insert
 $soLuong = $_POST['soluong'];
-$id_NS = $_POST['getidagri'];
+
+
 $giaHienTai = $row_kind['PRICE_AGRI'];
 
 //Kiểm tra nông sản trong CSDL
-$sql_amountAgric = "SELECT AMOUNT_AGRI FROM AGRICULTURAL WHERE ID_AGRI = '".$id_NS."' LIMIT 1";
+$sql_amountAgric = "SELECT AMOUNT_AGRI FROM AGRICULTURAL WHERE ID_AGRI = '".$idAgri."' LIMIT 1";
 $ketqua = mysqli_query($conn,$sql_amountAgric);
 while ($row = mysqli_fetch_array($ketqua)) {
 	$amountAgric = $row['AMOUNT_AGRI'];
 };
 
 if ($soLuong < $amountAgric) { //Nếu số lượng mua nhỏ hơn số lượng tồn kho thì cho phép thêm vào giỏ hàng
-  $arrAgriOrder = array('ID_AGRI' => $id_NS,
+  $arrAgriOrder = array('ID_AGRI' => $idAgri,
           'NUM_OF_AGRI' => $soLuong,
           'CURRENT_PRICE' => $giaHienTai);
 
@@ -54,29 +56,23 @@ if ($soLuong < $amountAgric) { //Nếu số lượng mua nhỏ hơn số lượn
 
   //Kiểm tra nông sản đã có trong Giỏ hảng chưa
   foreach ($_SESSION['AGRI_ORDER'] as $key => $value ){
-    if($value['ID_AGRI']==$id_NS){
+    if($value['ID_AGRI']==$idAgri){
       $keyDelete = $key ;
     }
   }
   if (!$keyDelete==false) unset($_SESSION['AGRI_ORDER'][$key]);
 
   array_push($_SESSION['AGRI_ORDER'], $arrAgriOrder);
+
   header('Location: cart-table.php');
-}else {
-  echo '<script>
-  alert("Trong kho không đủ số lượng");
-  document.getElementById("showErrorSL").innerHTML ="Trong kho không đủ số lượng";
-  </script>';
-}
 
+	}else {
+	  echo '<script>
+	  alert("Trong kho không đủ số lượng");
+	  document.getElementById("showErrorSL").innerHTML ="Trong kho không đủ số lượng";
+	  </script>';
+	}
 
-
-    // $sql_is_order = "insert into AGRI_ORDER values('"
-    // . $_POST["ID_ORDER"] . "','"
-    // . $_POST["ID_AGRI"] . "','"
-    // . $_POST["NUM_OF_AGRI"] . "',"
-    // . $_POST["CURRENT_PRICE"] . ")";
-    // $rs_is = mysqli_query($conn,$sql_is) or die(mysqli_error());
 }
 
 ?>
@@ -171,7 +167,7 @@ if ($soLuong < $amountAgric) { //Nếu số lượng mua nhỏ hơn số lượn
                     echo 'Xin chào '.$fullname . ' ! ';
 
 
-                     echo '<a href="#" class="pull-left"><img src="images/'.$url_img_avata.'" height="36" width="36" ></a>';
+                     echo '<a href="cus_control.php" class="pull-left"><img src="images/'.$url_img_avata.'" height="36" width="36" ></a>';
 
 
                     echo '<li class="nav-item">
@@ -383,7 +379,7 @@ if ($soLuong < $amountAgric) { //Nếu số lượng mua nhỏ hơn số lượn
                                 (Đơn vị tính: Gam)
                             </div>
                             <div class='row pull-center'>
-                                <button type='submit' class='btn btn-success btn-round' name='getidagri'value='<?php echo $row_kind["ID_AGRI"]; ?>."'>Thêm vào giỏ &#xA0;"
+                                <button type='submit' class='btn btn-success btn-round' name='getidagri'value='<?php echo $row_kind["ID_AGRI"]; ?>'>Thêm vào giỏ &#xA0;"
                                     <i class='material-icons'>shopping_cart</i>
                                 </button>
                             </div>

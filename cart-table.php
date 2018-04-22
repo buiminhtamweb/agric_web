@@ -39,7 +39,9 @@ if (isset($_POST['DAT_HANG'])){ //Kiểm tra tao tác đặt hàng
       		mysqli_query($conn,$truyvan2);
 
       		//Tìm Giá cũ trong CSQL để cập nhật lại số lượng trên hệ thống
+          echo '$agriOrder["ID_AGRI"]='.$agriOrder["ID_AGRI"];
       		$truyvan3 = "SELECT AMOUNT_AGRI FROM AGRICULTURAL WHERE ID_AGRI = " . $agriOrder["ID_AGRI"];
+          echo $truyvan3;
       		$query = mysqli_query($conn,$truyvan3);
       		$old_AMOUNT_AGRI = mysqli_fetch_array($query);
 
@@ -47,32 +49,19 @@ if (isset($_POST['DAT_HANG'])){ //Kiểm tra tao tác đặt hàng
       		$truyvan4 = "UPDATE AGRICULTURAL SET AMOUNT_AGRI = ".($old_AMOUNT_AGRI["AMOUNT_AGRI"] - $agriOrder["NUM_OF_AGRI"]) ." WHERE ID_AGRI = " . $agriOrder["ID_AGRI"];
 
       		mysqli_query($conn,$truyvan4);
+
       		echo "true";
+          $_SESSION['AGRI_ORDER'] = array();
     	   }
       }catch (Exception $e) {
-      	echo "false";
+      	echo "false".$e;
       }
     }
 
 
 }
 
-// $_SESSION['USERNAME_CUS'] ;
-// $_SESSION['TOTAL_ORDER'];
-// $_SESSION['AGRI_ORDER'];
-// if (isset($_SESSION['AGRI_ORDER'])) {
-//   for ($i=0; $i < count($_SESSION['AGRI_ORDER']); $i++) {
-//     $agri = $_SESSION['AGRI_ORDER'][$i];
-//     $sql = "SELECT * FROM agricultural,kinds WHERE ID_AGRI='".$agri['ID_AGRI']."' and agricultural.ID_KIND = kinds.ID_KIND Order by ID_AGRI DESC";
-//     $rs = mysqli_query($conn,$sql) or die(mysqlii_error());
-//   }
-// }
 
-
-
-// $sql = "SELECT * FROM agricultural,kinds WHERE ID_AGRI='".$_POST['getidagri']."' and agricultural.ID_KIND = kinds.ID_KIND Order by ID_AGRI DESC";
-// $rs = mysqli_query($conn,$sql) or die(mysqlii_error());
-#Call data entry that've selected above
 ?>
 
 <script>
@@ -157,12 +146,9 @@ function viewProductDe(idAgric) {
                       $url_img_avata = $row['IMG_URL_CUS'];
 
 
-
                   echo 'Xin chào '.$fullname . ' ! ';
 
-
-                   echo '<a href="#" class="pull-left"><img src="images/'.$url_img_avata.'" height="36" width="36" ></a>';
-
+                  echo '<a href="cus_control.php" class="pull-left"><img src="images/'.$url_img_avata.'" height="36" width="36" ></a>';
 
                   echo '<li class="nav-item">
 
@@ -171,8 +157,6 @@ function viewProductDe(idAgric) {
                               Đăng xuất
                           </a>
                       </li>';
-
-
 
                   }else{
                       echo '<li class="nav-item">

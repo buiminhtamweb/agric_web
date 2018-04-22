@@ -1,10 +1,15 @@
 <?php
 session_start();
 
+if (isset($_COOKIE['USERNAME_CUS'])) {
+ header('Location: index.php');
+}
+
 $isFail = false;
 
+
 if(!empty($_POST)) {
-    
+
     include_once("config.php");
     $username = $_POST["form-username"];
     $pass = $_POST["form-password"];
@@ -18,7 +23,7 @@ if(!empty($_POST)) {
         header('Location: ../agric/index.php');
     }else {
         $isFail = true;
-        
+
     }
     mysqli_close($conn);
 }
@@ -28,7 +33,7 @@ function showError(){
     if ($GLOBALS['isFail']) {
         echo "<pre>Sai tên đăng nhập hoặc mật khẩu</pre>";
     }
-    
+
 }
 
 ?>

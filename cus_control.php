@@ -1,9 +1,7 @@
 <?php
 session_start();
 include_once("config.php");
-if (!isset($_COOKIE['ID_USER'])) {
-header("Location: admin_login.php");
-}
+
 
  ?>
 
@@ -39,7 +37,7 @@ header("Location: admin_login.php");
     <nav class="navbar navbar-color-on-scroll fixed-top navbar-expand-lg navbar-transparent bg-success" color-on-scroll="100"
         style="min-width: 1024px;">
         <div class="container">
-            <a class="navbar-brand" href="admin_control.php">
+            <a class="navbar-brand" href="index.php">
                 <i class="material-icons">spa</i>
             </a>
 
@@ -72,7 +70,17 @@ header("Location: admin_login.php");
             <div class="row">
                 <div class="col-md-8 ml-auto mr-auto text-center">
                     <div class="brand">
-                        <h1 class="title">Adminitrator Control Panel</h1>
+
+                      <?php
+
+                      #Select entry from DB
+                      $sqlCus = "SELECT FULLNAME_CUS,IMG_URL_CUS FROM CUSTOMER WHERE USERNAME_CUS='".$_SESSION['USERNAME_CUS']."'";
+                      $rsCus = mysqli_query($conn,$sqlCus) or die(mysqlii_error());
+                      #Call data entry that've selected above
+                      $rowCus = mysqli_fetch_assoc($rsCus);
+                      echo '<h1 class="title">Xin chào '.$rowCus['FULLNAME_CUS'].'!</h1>';
+                      ?>
+
                         <!-- <h4>Nông sản Online - Lấy chất lượng làm
                             <b>Niềm tin!</b>
                         </h4> -->
@@ -93,25 +101,25 @@ header("Location: admin_login.php");
                     <li class="nav-item">
                         <a class="nav-link active" href="#tab_ordering" role="tab" data-toggle="tab">
                             <i class="material-icons">store</i>
-                            Duyệt đơn hàng
+                            Đơn hàng đang chờ duyệt
                         </a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link " href="#tab_bill" role="tab" data-toggle="tab">
                             <i class="material-icons">list</i>
-                            Đơn hàng đã duyệt
+                            Lịch sử đặt hàng
                         </a>
                     </li>
-                    <li class="nav-item">
+                    <!-- <li class="nav-item">
                         <a class="nav-link " href="#tab_addAgri" role="tab" data-toggle="tab">
                             <i class="material-icons">dashboard</i>
                             Thêm nông sản
                         </a>
-                    </li>
+                    </li> -->
                     <li class="nav-item">
                         <a class="nav-link" href="#tab_editAgri" role="tab" data-toggle="tab">
                             <i class="material-icons">edit</i>
-                            Cập nhật nông sản
+                            Cập nhật thông tin
                         </a>
                     </li>
 
@@ -120,10 +128,9 @@ header("Location: admin_login.php");
                 <div class="tab-content tab-space">
 
                     <?php
-                    include_once("admin_tab_odering.php");
-                    include_once("admin_tab_bill.php");
-                    include_once("admin_tab_addAgri.php");
-                    include_once("admin_tab_editAgri.php");
+                    include_once("cus_tab_odering.php");
+                    include_once("cus_tab_bill.php");
+
                     ?>
 
                 </div>
