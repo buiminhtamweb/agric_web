@@ -7,6 +7,39 @@ header("Location: admin_login.php");
 
  ?>
 
+ <!-- Bootstrap core JavaScript
+ ================================================== -->
+ <!-- Placed at the end of the document so the pages load faster -->
+ <script src="assets/js/bootstrap.js"></script>
+ <!--   Core JS Files   -->
+ <script src="assets/js/core/jquery.min.js"></script>
+ <script src="assets/js/core/popper.min.js"></script>
+ <script src="assets/js/bootstrap-material-design.js"></script>
+
+ <!-- Plugin for Date Time Picker and Full Calendar Plugin-->
+ <script src="assets/js/plugins/moment.min.js"></script>
+
+ <!-- Plugin for Select -->
+ <script src="assets/js/plugins/bootstrap-selectpicker.js"></script>
+
+ <!-- Plugin for Tags -->
+ <script src="assets/js/plugins/bootstrap-tagsinput.js"></script>
+
+ <!-- Plugin for Fileupload -->
+ <script src="assets/js/plugins/jasny-bootstrap.min.js"></script>
+
+ <!-- Plugin for Small Gallery in Product Page -->
+ <script src="assets/js/plugins/jquery.flexisel.js"></script>
+
+ <!-- Plugin for the Datepicker -->
+ <script src="assets/js/plugins/bootstrap-datetimepicker.min.js"></script>
+
+ <!-- Plugin for the Sliders -->
+ <script src="assets/js/plugins/nouislider.min.js"></script>
+
+ <!-- Material Kit Core initialisations of plugins and Bootstrap Material Design Library -->
+ <script src="assets/js/material-kit.js?v=2.0.0"></script>
+
 <!doctype html>
 <html lang="en">
 
@@ -169,41 +202,12 @@ header("Location: admin_login.php");
         </div>
     </footer>
 
-    <!-- Bootstrap core JavaScript
-    ================================================== -->
-    <!-- Placed at the end of the document so the pages load faster -->
-    <script src="assets/js/bootstrap.js"></script>
-    <!--   Core JS Files   -->
-    <script src="assets/js/core/jquery.min.js"></script>
-    <script src="assets/js/core/popper.min.js"></script>
-    <script src="assets/js/bootstrap-material-design.js"></script>
 
-    <!-- Plugin for Date Time Picker and Full Calendar Plugin-->
-    <script src="assets/js/plugins/moment.min.js"></script>
-
-    <!-- Plugin for Select -->
-    <script src="assets/js/plugins/bootstrap-selectpicker.js"></script>
-
-    <!-- Plugin for Tags -->
-    <script src="assets/js/plugins/bootstrap-tagsinput.js"></script>
-
-    <!-- Plugin for Fileupload -->
-    <script src="assets/js/plugins/jasny-bootstrap.min.js"></script>
-
-    <!-- Plugin for Small Gallery in Product Page -->
-    <script src="assets/js/plugins/jquery.flexisel.js"></script>
-
-    <!-- Plugin for the Datepicker -->
-    <script src="assets/js/plugins/bootstrap-datetimepicker.min.js"></script>
-
-    <!-- Plugin for the Sliders -->
-    <script src="assets/js/plugins/nouislider.min.js"></script>
-
-    <!-- Material Kit Core initialisations of plugins and Bootstrap Material Design Library -->
-    <script src="assets/js/material-kit.js?v=2.0.0"></script>
 
     <!-- Slider JS -->
     <script>
+
+
         $(document).ready(function () {
 
             var slider2 = document.getElementById('sliderDouble');

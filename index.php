@@ -209,9 +209,17 @@ $rs_banner = mysqli_query($conn,$sql_banner) or die(mysqli_error());
                 <!-- Carousel Slider -->
                 <div id="carouselIndicators" class="carousel slide" data-ride="carousel" data-pause="hover">
                     <ol class="carousel-indicators">
-                        <li data-target="#carouselIndicators" data-slide-to="0" class="active"></li>
-                        <li data-target="#carouselIndicators" data-slide-to="1"></li>
-                        <li data-target="#carouselIndicators" data-slide-to="2"></li>
+                      <?php
+
+                        $rowcount=mysqli_num_rows($rs_banner);
+                         for ($i=0; $i <$rowcount; $i++) {
+                          if ($i==0) {
+                            echo '<li data-target="#carouselIndicators" data-slide-to="0" class="active"></li>';
+                          }else {
+                            echo '<li data-target="#carouselIndicators" data-slide-to="'.$i.'"></li>';
+                          }
+                        }
+                       ?>
                     </ol>
                     <div class="carousel-inner">
                         <!-- Auto load Slide 1 *acitve -->
