@@ -163,7 +163,7 @@ if (isset($_POST['KEYWORD'])) {
                         $fullname = $row['FULLNAME_CUS'];
                         $url_img_avata = $row['IMG_URL_CUS'];
                     echo 'Xin chào '.$fullname . ' ! ';
-                     echo '<a href="cus_control.php" class="pull-left"><img src="images/'.$url_img_avata.'" height="36" width="36" ></a>';
+                     echo '<a href="cus_control.php" class="pull-left"><img src="assets/img_cus/'.$url_img_avata.'" height="36" width="36" ></a>';
                     echo '<li class="nav-item">
                             <a class="nav-link" href="signout.php">
                                 <i class="material-icons">content_paste</i>

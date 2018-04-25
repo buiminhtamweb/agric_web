@@ -171,7 +171,7 @@ $rs_banner = mysqli_query($conn,$sql_banner) or die(mysqli_error());
                     echo 'Xin chào '.$fullname . ' ! ';
 
 
-                     echo '<a href="cus_control.php" class="pull-left"><img src="images/'.$url_img_avata.'" height="36" width="36" ></a>';
+                     echo '<a href="cus_control.php" class="pull-left"><img src="assets/img_cus/'.$url_img_avata.'" height="36" width="36" ></a>';
 
 
                     echo '<li class="nav-item">

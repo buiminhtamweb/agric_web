@@ -28,7 +28,7 @@ LIMIT 20';
 
    ?>
 
-  <div class="tab-pane fade show active" id="tab_bill">
+  <div class="tab-pane fade" id="tab_bill">
     <div class="container">
       <div class="text-center">
           <h2>Đơn hàng đã duyệt</h2>

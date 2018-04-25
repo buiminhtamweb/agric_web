@@ -1,17 +1,7 @@
 <!-- Tab Duyệt đơn hàng -->
 <?php
 
-if (isset($_POST['ID_ORDERING'])) {
-  $idOrder = $_POST['ID_ORDERING'];
-  $idUser = $_SESSION['ID_USER'];
-  $sqlInsertBill = 'INSERT INTO `BILL`(`ID_USER`, `ID_ORDER`)
-  VALUES ("'.$idUser.'","'.$idOrder.'")';
-  if (mysqli_query($conn,$sqlInsertBill)) {
-    echo '<h3 class="text-center " style="padding-right: 50px; color: green; ">Đã duyệt đơn hàng '.$idOrder.'</h3>';
-  }else {
-    echo '<h3 class="text-center " style="padding-right: 50px; color: red; ">Chưa duyệt được đơn hàng '.$idOrder.'</h3>';
-  }
-}
+
 
 
   $sql_ordering = 'SELECT o.ID_ORDER, o.DATE_ORDER , o.TOTAL_ORDER , cus.FULLNAME_CUS, cus.TEL_CUS, cus.ADDRESS_CUS
@@ -37,6 +27,18 @@ if (isset($_POST['ID_ORDERING'])) {
 
       //Kiểm tra đã dăng nhập chưa
       if (isset($_COOKIE['ID_USER'])) {
+
+        if (isset($_POST['ID_ORDERING'])) {
+          $idOrder = $_POST['ID_ORDERING'];
+          $idUser = $_SESSION['ID_USER'];
+          $sqlInsertBill = 'INSERT INTO `BILL`(`ID_USER`, `ID_ORDER`)
+          VALUES ("'.$idUser.'","'.$idOrder.'")';
+          if (mysqli_query($conn,$sqlInsertBill)) {
+            echo '<h3 class="text-center " style="padding-right: 50px; color: green; ">Đã duyệt đơn hàng '.$idOrder.'</h3>';
+          }else {
+            echo '<h3 class="text-center " style="padding-right: 50px; color: red; ">Chưa duyệt được đơn hàng '.$idOrder.'</h3>';
+          }
+        }
 
         while ($row = mysqli_fetch_array($rs_ordering))
         {

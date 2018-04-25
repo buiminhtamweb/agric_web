@@ -167,7 +167,7 @@ if ($soLuong < $amountAgric) { //Nếu số lượng mua nhỏ hơn số lượn
                     echo 'Xin chào '.$fullname . ' ! ';
 
 
-                     echo '<a href="cus_control.php" class="pull-left"><img src="images/'.$url_img_avata.'" height="36" width="36" ></a>';
+                     echo '<a href="cus_control.php" class="pull-left"><img src="assets/img_cus/'.$url_img_avata.'" height="36" width="36" ></a>';
 
 
                     echo '<li class="nav-item">

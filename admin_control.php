@@ -104,7 +104,7 @@ header("Location: admin_login.php");
                     </li>
                     <li class="nav-item">
                         <a class="nav-link " href="#tab_addAgri" role="tab" data-toggle="tab">
-                            <i class="material-icons">dashboard</i>
+                            <i class="material-icons">add</i>
                             Thêm nông sản
                         </a>
                     </li>
@@ -112,6 +112,12 @@ header("Location: admin_login.php");
                         <a class="nav-link" href="#tab_editAgri" role="tab" data-toggle="tab">
                             <i class="material-icons">edit</i>
                             Cập nhật nông sản
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#tab_banner" role="tab" data-toggle="tab">
+                            <i class="material-icons">payment</i>
+                            Quản lý banner
                         </a>
                     </li>
 
@@ -124,6 +130,7 @@ header("Location: admin_login.php");
                     include_once("admin_tab_bill.php");
                     include_once("admin_tab_addAgri.php");
                     include_once("admin_tab_editAgri.php");
+                    include_once("admin_tab_banner.php");
                     ?>
 
                 </div>

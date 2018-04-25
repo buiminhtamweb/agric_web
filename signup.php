@@ -7,7 +7,7 @@ $uploadOk = 1;
 function uploadImg(){
   //Upload hình ảnh
   $globals['uploadOk'] = 1;
-  $target_dir = "images/";
+  $target_dir = "assets/img_cus/";
   $target_file = $target_dir . basename($_FILES["fileToUpload"]["name"]);
 
   $imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));

@@ -2,6 +2,11 @@
 session_start();
 include_once("config.php");
 
+if (!isset($_SESSION['USERNAME_CUS'])) {
+  header('Location: login.php');
+  // code...
+}
+
 
  ?>
 
