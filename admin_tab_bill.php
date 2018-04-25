@@ -2,6 +2,10 @@
 
 <?php
 
+if (!isset($_COOKIE['ID_USER'])) {
+  header("Location: admin_login.php");
+}
+
 // if (isset($_POST['ID_ORDER'])) {
 //   $idOrder = $_POST['ID_ORDER'];
 //   $idUser = $_SESSION['ID_USER'];

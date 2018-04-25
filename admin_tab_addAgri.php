@@ -153,7 +153,7 @@ if(isset($_POST["loaiNS"]) &&
 
         <div class="form-group has-success">
                 <label for="price_agri"></label>
-                <input type="text" class="form-control" id="price_agri" name="price_agri" placeholder="Đơn giá (Nhập theo VND)">
+                <input type="number" class="form-control" id="price_agri" name="price_agri" placeholder="Đơn giá (Nhập theo VND)">
         </div>
 
         <div class="form-group has-success">

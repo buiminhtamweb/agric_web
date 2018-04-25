@@ -1,7 +1,9 @@
 <!-- Tab Duyệt đơn hàng -->
 <?php
 
-
+if (!isset($_COOKIE['ID_USER'])) {
+  header("Location: admin_login.php");
+}
 
 
   $sql_ordering = 'SELECT o.ID_ORDER, o.DATE_ORDER , o.TOTAL_ORDER , cus.FULLNAME_CUS, cus.TEL_CUS, cus.ADDRESS_CUS
