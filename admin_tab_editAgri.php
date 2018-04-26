@@ -4,21 +4,27 @@ if (!isset($_COOKIE['ID_USER'])) {
   header("Location: admin_login.php");
 }
 
-if (isset($_POST['gia'])&&$_POST['giaCu']) {
-  $sql_upGia = 'UPDATE AGRICULTURAL SET PRICE_AGRI = '.$_POST['gia'].' WHERE ID_AGRI = '.$_POST['idNS'];
-  $sql_ghiLSCapNhat = 'INSERT INTO AGRICULTURAL(`ID_USER`, `ID_AGRI`, `OLD_PRICE`)
-  VALUES ("'.$_SESSION['ID_USER'].'",'.$_POST['idNS'].','.$_POST['giaCu'].')';
+if (isset($_POST['idNS'])) {
+  $idNS = $_POST['idNS'];
+}
 
-  if (mysqli_query($conn, $sql_search)) {
+if (isset($_POST['gia']) && isset($_POST['giaCu'])) {
+  $sql_upGia = 'UPDATE AGRICULTURAL SET PRICE_AGRI = '.$_POST['gia'].' WHERE ID_AGRI = '.$idNS;
+  $sql_ghiLSCapNhat = 'INSERT INTO AGRICULTURAL(`ID_USER`, `ID_AGRI`, `OLD_PRICE`)
+  VALUES ("'.$_SESSION['ID_USER'].'",'.$idNS.','.$_POST['giaCu'].')';
+
+  if (mysqli_query($conn, $sql_upGia)) {
+    if (mysqli_query($conn, $sql_ghiLSCapNhat)) {
       echo '<script>
       alert("Giá Nông sản đã được cập nhật")
       </script>';
-  };
+    }
+  }
 }
 
 
 if (isset($_POST['sluong'])) {
-  $sql_upSLuong = 'UPDATE AGRICULTURAL SET AMOUNT_AGRI = '.$_POST['sluong'].' WHERE ID_AGRI = '.$_POST['idNS'];
+  $sql_upSLuong = 'UPDATE AGRICULTURAL SET AMOUNT_AGRI = '.$_POST['sluong'].' WHERE ID_AGRI = '.$idNS;
   if (mysqli_query($conn, $sql_upSLuong)) {
     echo '<script>
     alert("Số lượng Nông sản đã được cập nhật")
@@ -88,7 +94,26 @@ function timKiemNS() {
 
 }
 
-
+// function capnhatNS(idXoa) {
+//   // alert("aaaaaaaaaaa");
+//     var xmlhttp1 = new XMLHttpRequest();
+//     xmlhttp1.onreadystatechange = function() {
+//         if (this.readyState == 4 && this.status == 200) {
+//           if (this.responseText == "true") {
+//
+//             alert("Đã xóa "+idXoa);
+//             timKiemNS();
+//           }else {
+//             alert("Lỗi !");
+//           }
+//         }
+//     };
+//     xmlhttp1.open("POST", "admin_tab_editAgri_delete.php", true);
+//     xmlhttp1.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+//     xmlhttp1.send("&idXoa="+idXoa);
+//
+//
+// }
 
 function xoaNS(idXoa) {
   // alert("aaaaaaaaaaa");
